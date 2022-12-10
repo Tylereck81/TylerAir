@@ -232,6 +232,11 @@ function logIn($connect, $uid, $password, $adminLogin){
 
 }
 
+function queryFlight($connect, $depCity, $arrCity, $depart_date, $return_date, $ticket_type){ 
+    header("location: ../adminlogin.php?error=doesNotExist");
+    exit();
+}
+
 
 
 
