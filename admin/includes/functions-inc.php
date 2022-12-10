@@ -250,27 +250,68 @@ function getMax($connect,$m){
     
 }
 
-function insertFlight($connect,$depCity,$arrCity,$depTime,$arrTime,$flight_schedule,$date_start,$date_end,$flight_price){
-    $depAirport = getAirportCode($connect, $depCity);
-    $arrAirport = getAirportCode($connect, $arrCity);
-
-    $flight_duration = round(abs(strtotime($arrTime) - strtotime($depTime)) / 60,2);
-
-    $query_insertflight = "INSERT INTO flights(departure_airport,destination_airport,departure_time,arrival_time,week_schedule,date_start,date_end,flight_price,flight_duration) VALUES(?,?,?,?,?,?,?,?,?);";
+function getAirplaneID($connect, $airplane){ 
+    $query_airplane = "SELECT * FROM airplanes WHERE airplane_name=?";
     
-    if(!($stmt = $connect->prepare($query_insertflight))){ 
-        header("location: ../addflights.php?error=stmtpreparefailure2");
+    if(!($stmt = $connect->prepare($query_airplane))){ 
+        header("location: ../addflights.php?error=stmtpreparefailure");
         exit();
     }
 
     //binds the statement with the actual data
-    if(!($stmt ->bind_param("sssssssss",$depAirport["airport_ID"],$arrAirport["airport_ID"],$depTime,$arrTime,$flight_schedule,$date_start,$date_end,$flight_price,$flight_duration))){ 
+    
+    if(!($stmt ->bind_param("s",$airplane))){ 
         header("location: ../addflights.php?error=stmtbindfailure");
         exit();
     }
 
     if(!($stmt ->execute())){ 
-        header("location: ../addflights.php?error=stmtexecutefailure");
+        header("location: ../addflights.php?error=stmtexecutefailure1");
+        exit();
+    }
+
+    if(!($result = $stmt->get_result())){ 
+        header("location: ../addflights.php?error=stmtresultfailure");
+        exit();
+    }
+
+    //checks if result has some data in it and return it
+    $data = $result ->fetch_array(MYSQLI_ASSOC);
+
+    if($data){
+        return $data; 
+    }
+    else{ 
+        $result = false;
+        return $result;
+    }
+
+    $stmt->close();
+
+}
+
+function insertFlight($connect, $depCity, $arrCity, $depTime, $arrTime, $date_start, $date_end, $flight_schedule, $airplane, $first_class_price, $economy_class_price){
+    $depAirport = getAirportCode($connect, $depCity);
+    $arrAirport = getAirportCode($connect, $arrCity);
+    $airplane_ID = getAirplaneID($connect, $airplane);
+
+    $flight_duration = round(abs(strtotime($arrTime) - strtotime($depTime)) / 60,2);
+
+    $query_insertflight = "INSERT INTO flights(departure_airport,destination_airport,departure_time,arrival_time,flight_duration,date_start,date_end,week_schedule,airplane_ID,firstclass_price,economyclass_price) VALUES(?,?,?,?,?,?,?,?,?,?,?);";
+    
+    if(!($stmt = $connect->prepare($query_insertflight))){ 
+        header("location: ../addflights.php?error=stmtpreparefailure1");
+        exit();
+    }
+
+    //binds the statement with the actual data
+    if(!($stmt ->bind_param("sssssssssss",$depAirport["airport_ID"],$arrAirport["airport_ID"],$depTime,$arrTime,$flight_duration,$date_start,$date_end,$flight_schedule,$airplane_ID["airplane_ID"],$first_class_price,$economy_class_price))){ 
+        header("location: ../addflights.php?error=stmtbindfailure1");
+        exit();
+    }
+
+    if(!($stmt ->execute())){ 
+        header("location: ../addflights.php?error=stmtexecutefailure1");
         exit();
     }
     $stmt->close();
@@ -278,19 +319,22 @@ function insertFlight($connect,$depCity,$arrCity,$depTime,$arrTime,$flight_sched
 
     $flight_ID = getMax($connect,0);
 
-    populate_FlightSchedule($connect, $flight_ID, $date_start, $date_end, $flight_schedule);
+    populate_FlightSchedule($connect, $flight_ID, $date_start, $date_end, $flight_schedule, $airplane);
 
 }
 
-function populate_FlightSchedule($connect, $flight_ID, $date_start, $date_end,$flight_schedule){
+function populate_FlightSchedule($connect, $flight_ID, $date_start, $date_end, $flight_schedule, $airplane){
     $begin = new DateTime($date_start);
     $end = new DateTime($date_end);
 
     $interval = DateInterval::createFromDateString('1 day');
     $period = new DatePeriod($begin, $interval, $end);
 
-    $totalSeats = 90;
-    $AvSeats = 90;
+    $airplaneinfo = getAirplaneInfo($connect, $airplane);
+
+    $totalSeats = $airplaneinfo["total_capacity"];
+    $firstclassSeats = $airplaneinfo["first_class"];
+    $economyclassSeats = $airplaneinfo["economy_class"];
     $status = 1;
 
     foreach ($period as $dt) {
@@ -298,7 +342,7 @@ function populate_FlightSchedule($connect, $flight_ID, $date_start, $date_end,$f
 
         if(check_DateInSchedule($flight_schedule,$date)){
 
-            $query_scheduleFlight = "INSERT INTO flight_schedule(flight_ID,flight_date,total_seats,available_seats,flight_status) VALUES(?,?,?,?,?);";
+            $query_scheduleFlight = "INSERT INTO flight_schedule(flight_ID,flight_date,total_seats,firstclass_seats,economyclass_seats,flight_status) VALUES(?,?,?,?,?,?);";
 
             if(!($stmt = $connect->prepare($query_scheduleFlight))){ 
                 header("location: ../addflights.php?error=stmtpreparefailure2");
@@ -306,13 +350,13 @@ function populate_FlightSchedule($connect, $flight_ID, $date_start, $date_end,$f
             }
         
             //binds the statement with the actual data
-            if(!($stmt ->bind_param("sssss",$flight_ID,$date,$totalSeats,$AvSeats,$status))){ 
-                header("location: ../addflights.php?error=stmtbindfailure");
+            if(!($stmt ->bind_param("ssssss",$flight_ID,$date,$totalSeats,$firstclassSeats,$economyclassSeats,$status))){ 
+                header("location: ../addflights.php?error=stmtbindfailure2");
                 exit();
             }
         
             if(!($stmt ->execute())){ 
-                header("location: ../addflights.php?error=stmtexecutefailure");
+                header("location: ../addflights.php?error=stmtexecutefailure2");
                 exit();
             }
 
@@ -323,6 +367,45 @@ function populate_FlightSchedule($connect, $flight_ID, $date_start, $date_end,$f
     }
 
 
+}
+
+function getAirplaneInfo($connect, $airplane){ 
+    $query_airplane = "SELECT * FROM airplanes WHERE airplane_name = ?";
+    
+    if(!($stmt = $connect->prepare($query_airplane))){ 
+        header("location: ../addflights.php?error=stmtpreparefailure");
+        exit();
+    }
+
+    //binds the statement with the actual data
+    
+    if(!($stmt ->bind_param("s",$airplane))){ 
+        header("location: ../addflights.php?error=stmtbindfailure");
+        exit();
+    }
+
+    if(!($stmt ->execute())){ 
+        header("location: ../addflights.php?error=stmtexecutefailure");
+        exit();
+    }
+
+    if(!($result = $stmt->get_result())){ 
+        header("location: ../addflights.php?error=stmtresultfailure");
+        exit();
+    }
+
+    //checks if result has some data in it and return it
+    $data = $result ->fetch_array(MYSQLI_ASSOC);
+
+    if($data){
+        return $data; 
+    }
+    else{ 
+        $result = false;
+        return $result;
+    }
+
+    $stmt->close();
 }
 
 function check_DateInSchedule($flight_schedule,$date){ 

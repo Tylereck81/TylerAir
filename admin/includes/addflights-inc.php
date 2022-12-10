@@ -9,11 +9,14 @@
     $arrTime = $_POST["arrival_time"];
     $date_start = $_POST["start_date"];
     $date_end = $_POST["end_date"];
-    $flight_price = $_POST["flight_price"];
     $schedule = $_POST["week_schedule"];
     $flight_schedule = "";
+    $airplane = $_POST["airplane"];
+    $first_class_price = $_POST["first_class_price"];
+    $economy_class_price = $_POST["economy_class_price"];
+    
 
-    if($depCity == NULL ||  $depTime == NULL || $arrCity == NULL || $arrTime == NULL || $date_start == NULL || $date_end == NULL || $flight_price == NULL || $schedule == NULL){ 
+    if($depCity == NULL ||  $depTime == NULL || $arrCity == NULL || $arrTime == NULL || $date_start == NULL || $date_end == NULL || $schedule == NULL || $airplane == NULL || $first_class_price == NULL || $economy_class_price == NULL){ 
         header("location:../addflights.php?error=noinformation");
         exit();
     }
@@ -28,7 +31,7 @@
     }
 
 
-    insertFlight($connect,$depCity,$arrCity,$depTime,$arrTime,$flight_schedule,$date_start,$date_end,$flight_price);
+    insertFlight($connect, $depCity, $arrCity, $depTime, $arrTime, $date_start, $date_end, $flight_schedule, $airplane, $first_class_price, $economy_class_price);
     
 
 

@@ -21,6 +21,7 @@
            
         ?>
         <br>
+        <br>
        
         Departure City: <select name="departureCity" id = "departureCity" required> 
             <option value="">..Select...</option> 
@@ -67,10 +68,6 @@
         <input type="date" name="end_date" id = "end_date" required />
         <br> 
 
-        Flight Price: $
-        <input type="number" name="flight_price" id = "flight_price" min="1" step="any" value="0" required />
-        <br>
-
         Week Schedule: <br>
         <input type="checkbox" name="week_schedule[]" value="mon">Monday<br>
         <input type="checkbox" name="week_schedule[]" value="tue">Tuesday<br>
@@ -79,7 +76,31 @@
         <input type="checkbox" name="week_schedule[]" value="fri">Friday<br>
         <input type="checkbox" name="week_schedule[]" value="sat">Saturday<br>
         <input type="checkbox" name="week_schedule[]" value="sun">Sunday<br>
+
+        <br>
+        Airplane: 
+        <select name="airplane" id = "airplane" required> 
+            <option value="">..Select...</option> 
+            <?php
+
+            $query_city = "SELECT * FROM airplanes;";
+            $result = $connect->query($query_city);
+            
+            while($row = $result->fetch_array()){
+                ?> 
+                <option value="<?php echo $row['airplane_name']; ?>"> <?php echo $row['airplane_name']; ?></option>
+           <?php 
+           }
+           ?>
+        </select> <br>
+
+        First Class Price: $
+        <input type="number" name="first_class_price" id = "first_class_price" min="1" step="any" value="0" required />
+        <br>
         
+        Economy Class Price: $
+        <input type="number" name="economy_class_price" id = "economy_class_price" min="1" step="any" value="0" required />
+        <br>
 
         <input type='button' onclick="check()" value="Add Flight">
         
@@ -95,11 +116,15 @@
             var arr_time = document.getElementById("arrival_time").value;
             var start_date = document.getElementById("start_date").value;
             var end_date = document.getElementById("end_date").value;
-            var flight_price = document.getElementById("flight_price").value;
+            var airplane = document.getElementById("airplane").value;
+            var first_class_price  = document.getElementById("first_class_price").value;
+            var economy_class_price = document.getElementById("economy_class_price").value;
 
             const checkbox_check = document.querySelectorAll('input[type="checkbox"]:checked').length > 0;
             
-
+            if(depCity=="" || arrCity=="" || dep_time == "" || arr_time == "" || start_date == "" || end_date == ""){
+                Error +="Please enter required data\n";
+            }
             if(depCity == arrCity){
                 Error += "Departure City and Arrival City cannot be the same\n";
             }
@@ -118,12 +143,16 @@
                 Error += "Start date should be before end date!\n";
             }
 
-            if(flight_price <= 0 ){ 
-                Error += "Please enter valid price\n";
-            }
-
             if(!checkbox_check){
                 Error += "Please schedule of flight\n";
+            }
+
+            if(first_class_price <=0){ 
+                Error += "First Class Price should be more than 0\n";
+            }
+
+            if(economy_class_price <=0){ 
+                Error += "Economy Class Price should be more than 0\n";
             }
 
             if(Error == ""){ 
