@@ -9,9 +9,9 @@
     $return_date = $_POST["return_date"];
     $ticket_type = $_POST["ticket_type"];
     $seat_class = $_POST["seat_class"];
+    $tickets = $_POST["tickets"];
 
     if($ticket_type=="round_trip"){
-        
         
         if($depCity=="" || $arrCity=="" || $depart_date=="" || $return_date== ""|| $seat_class==""){ 
             header("location: index.php?error=noinformation");
@@ -24,8 +24,8 @@
             header("location: index.php?error=noinformation");
             exit();
         }
-        
-        $result = queryFlight($connect, $depCity, $arrCity, $depart_date, $return_date, $ticket_type,$seat_class);
+
+        $result = queryFlight($connect, $depCity, $arrCity, $depart_date, $return_date, $ticket_type,$seat_class,$tickets);
 
         echo "<h2>".$depCity." to ".$arrCity."</h2>";
         echo "<h3> Departure Date: ".$depart_date."</h3>";
@@ -46,6 +46,13 @@
             echo "<h2>".$depCity." to ".$arrCity."</h2>";
             echo "<h3> NO FLIGHTS FOUND </h3>";
         }
+
+        /*
+        UPDATE flight_schedule
+SET economyclass_seats=6
+WHERE flight_ID="TA038" AND flight_date="2022-12-26";
+
+        */
         
 
     }

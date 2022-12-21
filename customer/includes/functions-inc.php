@@ -273,7 +273,7 @@ function getAirportCode($connect, $city){
 
 }   
 
-function queryFlight($connect, $depCity, $arrCity, $depart_date, $return_date, $ticket_type,$class){ 
+function queryFlight($connect, $depCity, $arrCity, $depart_date, $return_date, $ticket_type,$class,$tickets){ 
     $depAirportID = getAirportCode($connect, $depCity);
     $arrAirportID = getAirportCode($connect, $arrCity);
 
@@ -283,7 +283,7 @@ function queryFlight($connect, $depCity, $arrCity, $depart_date, $return_date, $
         flights.destination_airport = ? AND 
         flight_date = ? AND 
         flight_schedule.flight_status = 1 AND  
-        flight_schedule.economyclass_seats>0'; 
+        flight_schedule.economyclass_seats>=?'; 
     }
     else{ 
         $queryflight = 'SELECT * FROM flights NATURAL JOIN flight_schedule 
@@ -291,7 +291,7 @@ function queryFlight($connect, $depCity, $arrCity, $depart_date, $return_date, $
         flights.destination_airport = ? AND 
         flight_date = ? AND 
         flight_schedule.flight_status = 1 AND  
-        flight_schedule.firstclass_seats>0'; 
+        flight_schedule.firstclass_seats>=?'; 
     }
 
     if(!($stmt = $connect->prepare($queryflight))){ 
@@ -300,7 +300,7 @@ function queryFlight($connect, $depCity, $arrCity, $depart_date, $return_date, $
     }
 
     //binds the statement with the actual data
-    if(!($stmt ->bind_param("sss",$depAirportID["airport_ID"],$arrAirportID["airport_ID"],$depart_date))){ 
+    if(!($stmt ->bind_param("ssss",$depAirportID["airport_ID"],$arrAirportID["airport_ID"],$depart_date,$tickets))){ 
         header("location: ../index.php?error=stmtbindfailure");
         exit();
     }
@@ -323,7 +323,7 @@ function queryFlight($connect, $depCity, $arrCity, $depart_date, $return_date, $
         return $result;
     }
 
-
+ 
 }
 
 

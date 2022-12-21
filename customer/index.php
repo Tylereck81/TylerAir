@@ -59,17 +59,26 @@
         Return:
         <input type="date" name="return_date" id = "return_date" required />
         <br> 
+        <br>
+        
 
+        Number of Tickets:<br>
+        <button type="button" onclick="onMinusClick()">-</button>
+        <a id="clicks">1</a>
+        <button type="button" onclick="onAddClick()">+</button>
+
+        <input type="hidden" id="tickets" name="tickets" value="">
 
         <input type='button' onclick="check()" value="Search">
     </form>
 
     <script>
+
+        var tickets = 1;
+
         function check(){
             var Error = "";
             var trip_type="";
-            
-            
             
             const radioButtons = document.querySelectorAll('input[name="ticket_type"]');
             for (const radioButton of radioButtons) {
@@ -78,17 +87,13 @@
                     break;
                 }
             }
-
-            
             
             var depCity = document.getElementById("departureCity").value;
             var arrCity = document.getElementById("arrivalCity").value;
             var depart_date = document.getElementById("depart_date").value;
             var return_date = document.getElementById("return_date").value;
-            
-            
             var seat_class = document.getElementById("seat_class").value; 
-
+            document.getElementById("tickets").value= tickets; 
 
             
             if(trip_type == "round_trip"){ 
@@ -107,6 +112,12 @@
                 if(depart_date>return_date){ 
                     Error += "Depart date should be after return date\n";
                 }
+                if (tickets<=0){ 
+                    Error += "Tickets needs to be more than 0\n";
+                }
+                if(tickets>10){ 
+                    Error += "Max ticket amount per user is 10\n";
+                }
                 
             }
             else{ 
@@ -123,21 +134,37 @@
                 if(depart_date<=currentDate){ 
                     Error += "Depart date should be after today\n";
                 }
+                if (tickets<=0){ 
+                    Error += "Tickets needs to be more than 0\n";
+                }
+                if(tickets>10){ 
+                    Error += "Max ticket amount per user is 10\n";
+                }
                  
             }
-            
 
-        
-            if(Error == ""){ 
+
+            if(Error == ""){
+                
                document.getElementById("form").submit();
             }
             else{ 
                 alert(Error);
             }
-            
-            
 
         }
+
+
+        function onAddClick(){ 
+            tickets+=1;
+            document.getElementById("clicks").innerHTML = tickets;
+        }
+
+        function onMinusClick(){ 
+            tickets-=1;
+            document.getElementById("clicks").innerHTML = tickets;
+        }
+
 
     </script>
 
