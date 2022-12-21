@@ -104,7 +104,7 @@
                 if(depart_date<=currentDate){ 
                     Error += "Depart date should be after today\n";
                 }
-                if(depart_date>=return_date){ 
+                if(depart_date>return_date){ 
                     Error += "Depart date should be after return date\n";
                 }
                 
