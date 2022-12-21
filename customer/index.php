@@ -6,7 +6,7 @@
  
 
 <h2>Query Flights</h2>
-    <form id = "form" action="includes/queryflights-inc.php" method="post">
+    <form id = "form" action="queryflights-inc.php" method="post">
         
         <input type="radio" name="ticket_type" value="round_trip" checked = "checked" >Round Trip
         <input type="radio" name="ticket_type" value="one_way">One Way
@@ -44,6 +44,12 @@
            }
            ?>
         </select> <br>
+
+        Class: <select name="seat_class" id = "seat_class" required> 
+            <option value="">..Select...</option> 
+            <option value="first">First Class</option> 
+            <option value="econ">Economy</option> 
+        </select> <br>
        
         <br><br>
         Depart:
@@ -54,15 +60,17 @@
         <input type="date" name="return_date" id = "return_date" required />
         <br> 
 
-        <input type='button' onclick="check()" value="Search">
 
+        <input type='button' onclick="check()" value="Search">
     </form>
 
     <script>
         function check(){
-            
             var Error = "";
             var trip_type="";
+            
+            
+            
             const radioButtons = document.querySelectorAll('input[name="ticket_type"]');
             for (const radioButton of radioButtons) {
                 if (radioButton.checked) {
@@ -70,13 +78,21 @@
                     break;
                 }
             }
+
+            
+            
             var depCity = document.getElementById("departureCity").value;
             var arrCity = document.getElementById("arrivalCity").value;
             var depart_date = document.getElementById("depart_date").value;
             var return_date = document.getElementById("return_date").value;
             
+            
+            var seat_class = document.getElementById("seat_class").value; 
+
+
+            
             if(trip_type == "round_trip"){ 
-                if(depCity=="" || arrCity=="" || depart_date=="" || return_date== "" || ticket_type==""){
+                if(depCity=="" || arrCity=="" || depart_date=="" || return_date== "" || seat_class==""){
                     Error +="Please enter required data\n";
                 }
 
@@ -92,11 +108,10 @@
                     Error += "Depart date should be after return date\n";
                 }
                 
-                Error += "TEDST";
             }
             else{ 
 
-                if(depCity=="" || arrCity=="" || depart_date=="" || ticket_type==""){
+                if(depCity=="" || arrCity=="" || depart_date=="" || seat_class==""){
                     Error +="Please enter required data\n";
                 }
 
@@ -105,11 +120,12 @@
                 }
 
                 let currentDate = new Date().toJSON().slice(0, 10);
-                if(depart_date<currentDate){ 
-                    Error += "Start date should be more than today\n";
+                if(depart_date<=currentDate){ 
+                    Error += "Depart date should be after today\n";
                 }
                  
             }
+            
 
         
             if(Error == ""){ 
@@ -118,6 +134,8 @@
             else{ 
                 alert(Error);
             }
+            
+            
 
         }
 

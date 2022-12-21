@@ -232,9 +232,98 @@ function logIn($connect, $uid, $password, $adminLogin){
 
 }
 
-function queryFlight($connect, $depCity, $arrCity, $depart_date, $return_date, $ticket_type){ 
-    header("location: ../adminlogin.php?error=doesNotExist");
-    exit();
+function getAirportCode($connect, $city){
+    
+    $query_city = "SELECT airport_ID FROM airports WHERE city = ?;";
+    
+    if(!($stmt = $connect->prepare($query_city))){ 
+        header("location: ../addflights.php?error=stmtpreparefailure");
+        exit();
+    }
+
+    //binds the statement with the actual data
+    
+    if(!($stmt ->bind_param("s",$city))){ 
+        header("location: ../addflights.php?error=stmtbindfailure");
+        exit();
+    }
+
+    if(!($stmt ->execute())){ 
+        header("location: ../addflights.php?error=stmtexecutefailure1");
+        exit();
+    }
+
+    if(!($result = $stmt->get_result())){ 
+        header("location: ../addflights.php?error=stmtresultfailure");
+        exit();
+    }
+
+    //checks if result has some data in it and return it
+    $data = $result ->fetch_array(MYSQLI_ASSOC);
+
+    if($data){
+        return $data; 
+    }
+    else{ 
+        $result = false;
+        return $result;
+    }
+
+    $stmt->close();
+
+}   
+
+function queryFlight($connect, $depCity, $arrCity, $depart_date, $return_date, $ticket_type,$class){ 
+    $depAirportID = getAirportCode($connect, $depCity);
+    $arrAirportID = getAirportCode($connect, $arrCity);
+
+    if($class == "econ"){ 
+        $queryflight = 'SELECT * FROM flights NATURAL JOIN flight_schedule 
+        WHERE flights.departure_airport = ? AND 
+        flights.destination_airport = ? AND 
+        flight_date = ? AND 
+        flight_schedule.flight_status = 1 AND  
+        flight_schedule.economyclass_seats>0'; 
+    }
+    else{ 
+        $queryflight = 'SELECT * FROM flights NATURAL JOIN flight_schedule 
+        WHERE flights.departure_airport = ? AND 
+        flights.destination_airport = ? AND 
+        flight_date = ? AND 
+        flight_schedule.flight_status = 1 AND  
+        flight_schedule.firstclass_seats>0'; 
+    }
+
+    if(!($stmt = $connect->prepare($queryflight))){ 
+        header("location: ../index.php?error=stmtpreparefailure");
+        exit();
+    }
+
+    //binds the statement with the actual data
+    if(!($stmt ->bind_param("sss",$depAirportID["airport_ID"],$arrAirportID["airport_ID"],$depart_date))){ 
+        header("location: ../index.php?error=stmtbindfailure");
+        exit();
+    }
+
+    if(!($stmt ->execute())){ 
+        header("location: ../index.php?error=stmtexecutefailure");
+        exit();
+    }
+
+    if(!($result = $stmt->get_result())){ 
+        header("location: ../index.php?error=stmtresultfailure");
+        exit();
+    }
+
+    if($result){
+        return $result; 
+    }
+    else{ 
+        $result = false;
+        return $result;
+    }
+
+
 }
 
 
