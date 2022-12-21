@@ -273,10 +273,10 @@ function getAirportCode($connect, $city){
 
 }   
 
-function queryFlight($connect, $depCity, $arrCity, $depart_date, $return_date, $ticket_type,$class,$tickets){ 
+function queryFlight($connect, $depCity, $arrCity, $depart_date,$class,$tickets){ 
     $depAirportID = getAirportCode($connect, $depCity);
     $arrAirportID = getAirportCode($connect, $arrCity);
-
+    
     if($class == "econ"){ 
         $queryflight = 'SELECT * FROM flights NATURAL JOIN flight_schedule 
         WHERE flights.departure_airport = ? AND 
