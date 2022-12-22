@@ -53,8 +53,7 @@
             echo "</table>"; 
 
             echo "<input type='hidden' id='tickets' name='tickets' value='".$tickets."'>";
-            echo "<input type='hidden' id='ticket_type' name='ticket_type' value='".$ticket_type."'>";
-
+            $_SESSION['ticket_type'] = $ticket_type;
             $_SESSION['results1'] = $data1;
             
         }
@@ -86,7 +85,6 @@
             }
             echo "</table>"; 
 
-            echo "<input type='hidden' id='tickets' name='tickets' value='".$tickets."'>";
 
             $_SESSION['results2'] = $data2;
             
@@ -132,11 +130,8 @@
             }
             echo "</table>"; 
             
-            //number of tickets users want to order 
             echo "<input type='hidden' id='tickets' name='tickets' value='".$tickets."'>";
-            //one way or roundtrip
-            echo "<input type='hidden' id='ticket_type' name='ticket_type' value='".$ticket_type."'>";
-
+            $_SESSION['ticket_type'] = $ticket_type;
             $_SESSION['results'] = $data;
 
             echo "<input type='button' onclick='check()' value='Book Ticket'>";

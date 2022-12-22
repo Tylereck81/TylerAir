@@ -73,7 +73,6 @@
     </form>
 
     <script>
-
         var tickets = 1;
 
         function check(){
@@ -94,6 +93,7 @@
             var return_date = document.getElementById("return_date").value;
             var seat_class = document.getElementById("seat_class").value; 
             document.getElementById("tickets").value= tickets; 
+
 
             
             if(trip_type == "round_trip"){ 
@@ -145,8 +145,8 @@
 
 
             if(Error == ""){
-                
                document.getElementById("form").submit();
+               
             }
             else{ 
                 alert(Error);
@@ -155,17 +155,20 @@
         }
 
 
-        function onAddClick(){ 
-            tickets+=1;
-            document.getElementById("clicks").innerHTML = tickets;
+        function onAddClick(){
+            if(tickets+1 <=10){
+                tickets+=1;
+                document.getElementById("clicks").innerHTML = tickets;
+            } 
+            
         }
 
-        function onMinusClick(){ 
-            tickets-=1;
-            document.getElementById("clicks").innerHTML = tickets;
+        function onMinusClick(){
+            if(tickets-1>=0){ 
+                tickets-=1;
+                document.getElementById("clicks").innerHTML = tickets;
+            }
         }
-
-
     </script>
 
 

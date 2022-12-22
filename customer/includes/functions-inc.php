@@ -322,10 +322,46 @@ function queryFlight($connect, $depCity, $arrCity, $depart_date,$class,$tickets)
         $result = false;
         return $result;
     }
-
- 
 }
 
+function getAirportInfo($connect, $airportID){ 
+    $query_airport = "SELECT * FROM airports WHERE airport_ID = ?;";
+    
+    if(!($stmt = $connect->prepare($query_airport))){ 
+        header("location: ../addflights.php?error=stmtpreparefailure");
+        exit();
+    }
+
+    //binds the statement with the actual data
+    
+    if(!($stmt ->bind_param("s",$airportID))){ 
+        header("location: ../addflights.php?error=stmtbindfailure");
+        exit();
+    }
+
+    if(!($stmt ->execute())){ 
+        header("location: ../addflights.php?error=stmtexecutefailure1");
+        exit();
+    }
+
+    if(!($result = $stmt->get_result())){ 
+        header("location: ../addflights.php?error=stmtresultfailure");
+        exit();
+    }
+
+    //checks if result has some data in it and return it
+    $data = $result ->fetch_array(MYSQLI_ASSOC);
+
+    if($data){
+        return $data; 
+    }
+    else{ 
+        $result = false;
+        return $result;
+    }
+
+    $stmt->close();
+}
 
 
 
