@@ -41,7 +41,7 @@
         }
 
         //checks if the username exists
-        if(uid_ifExists($uid,$email,$passport,$connect)){ 
+        if(uid_ifExists($uid,$email,$passport,0,$connect)){ 
             header("location: ../signup.php?error=uidexists");
             exit();
         }

@@ -3,20 +3,46 @@
     include_once 'includes/dbh-inc.php';
     include_once 'includes/functions-inc.php';
 
-    if (isset($_POST['submitted'])){ 
-        $ticket_type = $_SESSION["ticket_type"];
-        if($ticket_type == "round_trip"){
+    
+    if (isset($_POST['submitted'])){   
 
+        $ticket_type = $_SESSION["ticket_type"];
+
+        if($ticket_type == "round_trip"){
+            $user_ID = $_SESSION["userid"];
+            $bags1 = $_POST["bags1"]; 
+            $bags2 = $_POST["bags2"]; 
+            $results1 = $_SESSION["results1"];
+            $results2 = $_SESSION["results2"];
+            $data1 = $results1[$_SESSION["ticket_index1"]];
+            $data2 = $results2[$_SESSION["ticket_index2"]];
+            $flight_ID1 = $data1["flight_ID"];
+            $flight_ID2 = $data2["flight_ID"];
+            $flight_date1 = $data1["flight_date"];
+            $flight_date2 = $data2["flight_date"];
+
+            //need to calculate total ticket price for each flight
+            $section = $ticket_type;
+            $number_tickets = $_SESSION["tickets_amount"];
+            $bags1 = $_POST["bags1"];
+            $bags2 = $_POST["bags2"];
+            $section_class = $_SESSION["seat_class"];
+            $base_ticket_price1 = ($section_class == "first")? ($data1['firstclass_price']) : ($data1['economyclass_price']);
+            $base_ticket_price2 = ($section_class == "first")? ($data2['firstclass_price']) : ($data2['economyclass_price']);
+            $TOTALPRICE1 = ($base_ticket_price1*$number_tickets) + (($bags1-1)*$number_tickets*500);
+            $TOTALPRICE2 = ($base_ticket_price2*$number_tickets) + (($bags2-1)*$number_tickets*500);
+            $ticket_status = 1;
+            
+            bookFlight($connect,$user_ID,$flight_ID1,$flight_date1,$section_class,$number_tickets,$bags1,$TOTALPRICE1,$ticket_status);
+            bookFlight($connect,$user_ID,$flight_ID2,$flight_date2,$section_class,$number_tickets,$bags2,$TOTALPRICE2,$ticket_status);       
         }
         else{ 
 
-
         }
-
-
 
     }
     else{ 
+
         $ticket_type = $_SESSION["ticket_type"];
 
         if($ticket_type == "round_trip"){
@@ -24,8 +50,11 @@
             $results1 = $_SESSION["results1"];
             $results2 = $_SESSION["results2"];
             $ticket_index1 = $_POST["ticket1"];
+            $_SESSION["ticket_index1"] = $ticket_index1; 
             $ticket_index2 = $_POST["ticket2"];
+            $_SESSION["ticket_index2"] = $ticket_index2; 
             $tickets = $_POST["tickets"];
+            $_SESSION["tickets_amount"] = $tickets; 
             $user_ID = $_SESSION["useruid"];
 
             echo "<form id='form' action='' method='post'>";
@@ -106,7 +135,9 @@
 
             $results = $_SESSION["results"];
             $tickets = $_POST["tickets"];
+            $_SESSION["tickets_amount"] = $tickets; 
             $ticket_index = $_POST["ticket"];
+            $_SESSION["ticket_index"] = $ticket_index; 
             $user_ID = $_SESSION["useruid"];
 
             echo "<form id='form' action='' method='post'>";

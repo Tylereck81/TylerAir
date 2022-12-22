@@ -53,8 +53,12 @@
             echo "</table>"; 
 
             echo "<input type='hidden' id='tickets' name='tickets' value='".$tickets."'>";
-            $_SESSION['ticket_type'] = $ticket_type;
-            $_SESSION['results1'] = $data1;
+
+            if(isset($_SESSION["userid"])){
+                $_SESSION['ticket_type'] = $ticket_type;
+                $_SESSION['results1'] = $data1;
+                $_SESSION['seat_class'] = $seat_class;
+            }
             
         }
         else{
@@ -86,7 +90,9 @@
             echo "</table>"; 
 
 
-            $_SESSION['results2'] = $data2;
+            if(isset($_SESSION["userid"])){
+                $_SESSION['results2'] = $data2;
+            }
             
         }
         else{
@@ -131,9 +137,13 @@
             echo "</table>"; 
             
             echo "<input type='hidden' id='tickets' name='tickets' value='".$tickets."'>";
-            $_SESSION['ticket_type'] = $ticket_type;
-            $_SESSION['results'] = $data;
 
+            if(isset($_SESSION["userid"])){
+                $_SESSION['ticket_type'] = $ticket_type;
+                $_SESSION['results'] = $data;
+                $_SESSION['seat_class'] = $seat_class;
+            }
+       
             echo "<input type='button' onclick='check()' value='Book Ticket'>";
             
         }

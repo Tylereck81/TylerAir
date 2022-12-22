@@ -328,24 +328,24 @@ function getAirportInfo($connect, $airportID){
     $query_airport = "SELECT * FROM airports WHERE airport_ID = ?;";
     
     if(!($stmt = $connect->prepare($query_airport))){ 
-        header("location: ../addflights.php?error=stmtpreparefailure");
+        header("location: ../bookflight.php?error=stmtpreparefailure");
         exit();
     }
 
     //binds the statement with the actual data
     
     if(!($stmt ->bind_param("s",$airportID))){ 
-        header("location: ../addflights.php?error=stmtbindfailure");
+        header("location: ../bookflight.php?error=stmtbindfailure");
         exit();
     }
 
     if(!($stmt ->execute())){ 
-        header("location: ../addflights.php?error=stmtexecutefailure1");
+        header("location: ../bookflight.php?error=stmtexecutefailure1");
         exit();
     }
 
     if(!($result = $stmt->get_result())){ 
-        header("location: ../addflights.php?error=stmtresultfailure");
+        header("location: ../bookflight.php?error=stmtresultfailure");
         exit();
     }
 
@@ -361,6 +361,31 @@ function getAirportInfo($connect, $airportID){
     }
 
     $stmt->close();
+}
+
+function bookFlight($connect,$user_ID,$flight_ID1,$flight_date1,$section_class,$number_tickets,$bags1,$TOTALPRICE1,$ticket_status){ 
+    $query_insert = "INSERT INTO booking(user_ID, flight_ID, flight_date, section, number_tickets, bag_number, ticket_price, ticket_status) VALUES (?,?,?,?,?,?,?,?);";
+            
+    if(!($stmt = $connect->prepare($query_insert))){ 
+        header("location: ../bookflight.php?error=stmtpreparefailure");
+        exit();
+    }
+
+    //binds the statement with the actual data
+    if(!($stmt ->bind_param("ssssssss",$user_ID,$flight_ID1,$flight_date1,$section_class,$number_tickets,$bags1,$TOTALPRICE1,$ticket_status))){ 
+        header("location: ../bookflight.php?error=stmtbindfailure");
+        exit();
+    }
+
+    if(!($stmt ->execute())){ 
+        header("location: ../bookflight.php?error=stmtexecutefailure1");
+        exit();
+    }
+
+
+    header("location: ../index.php");
+    $stmt->close();
+    
 }
 
 
