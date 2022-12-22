@@ -3,7 +3,18 @@
     include_once 'includes/dbh-inc.php';
     include_once 'includes/functions-inc.php';
 ?> 
- 
+<?php 
+    if(isset($_SESSION["userid"])){ 
+        echo 'Welcome '.$_SESSION["useruid"]."!";
+    }
+    if(isset($_GET["error"])){ 
+        if($_GET["error"] == "none"){ 
+            echo "<p>Booking Successful! Go to My Flights to see booked tickets!</p>";
+        }
+    }
+
+?> 
+
 
 <h2>Query Flights</h2>
     <form id = "form" action="queryflights-inc.php" method="post">

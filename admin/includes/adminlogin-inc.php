@@ -5,7 +5,6 @@
 
         $username = $_POST["uid"];
         $password = $_POST["pwd"];
-        $adminLogin = 1; 
 
 
         require_once 'dbh-inc.php'; 
@@ -17,7 +16,7 @@
             exit();
         }
 
-        logIn($connect,$username,$password,$adminLogin);
+        logIn($connect,$username,$password);
     }
     else{ 
         header("location: ../adminlogin.php");

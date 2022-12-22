@@ -12,153 +12,79 @@ function logincheck_NotEmpty($username, $password){
 }
 
 
-function uid_ifExists($uid,$email,$passport,$adminLogin,$connect){
-    if($adminLogin){
-         $query_uid = "SELECT * FROM users WHERE (user_username = ? OR user_email = ?) AND user_privlege = 1;";
-         //prepared statements to pass in that SQL statement (prevents code injections) 
-         
-         if(!($stmt = $connect->prepare($query_uid))){ 
-             header("location: ../adminlogin.php?error=stmtpreparefailure");
-             exit();
-         }
- 
-         //binds the statement with the actual data
-         
-         if(!($stmt ->bind_param("ss",$uid,$email))){ 
-             header("location: ../adminlogin.php?error=stmtbindfailure");
-             exit();
-         }
- 
-         if(!($stmt ->execute())){ 
-             header("location: ../adminlogin.php?error=stmtexecutefailure");
-             exit();
-         }
- 
-         if(!($result = $stmt->get_result())){ 
-             header("location: ../adminlogin.php?error=stmtresultfailure");
-             exit();
-         }
- 
-         //checks if result has some data in it and return it
-         $data = $result ->fetch_array(MYSQLI_ASSOC);
- 
-         if($data){
-             return $data; 
-         }
-         else{
-             $result = false;
-             return $result;
-         }
- 
-         $stmt->close(); 
-
+function uid_ifExists($connect,$uid,$email){
+    $query_uid = "SELECT * FROM users WHERE (user_username = ? OR user_email = ?) AND user_privlege = 1;";
+    //prepared statements to pass in that SQL statement (prevents code injections) 
+    
+    if(!($stmt = $connect->prepare($query_uid))){ 
+        header("location: ../adminlogin.php?error=stmtpreparefailure");
+        exit();
     }
-    else{ 
-        //SQL query to get if the users already exist
-        $query_uid = "SELECT * FROM users WHERE user_username = ? OR user_email = ? OR user_passport_number = ?;";
-        //prepared statements to pass in that SQL statement (prevents code injections) 
-        
-        if(!($stmt = $connect->prepare($query_uid))){ 
-            header("location: ../signup.php?error=stmtpreparefailure");
-            exit();
-        }
 
-        //binds the statement with the actual data
-        
-        if(!($stmt ->bind_param("sss",$uid,$email,$passport))){ 
-            header("location: ../signup.php?error=stmtbindfailure");
-            exit();
-        }
+    //binds the statement with the actual data
+    
+    if(!($stmt ->bind_param("ss",$uid,$email))){ 
+        header("location: ../adminlogin.php?error=stmtbindfailure");
+        exit();
+    }
 
-        if(!($stmt ->execute())){ 
-            header("location: ../signup.php?error=stmtexecutefailure");
-            exit();
-        }
+    if(!($stmt ->execute())){ 
+        header("location: ../adminlogin.php?error=stmtexecutefailure");
+        exit();
+    }
 
-        if(!($result = $stmt->get_result())){ 
-            header("location: ../signup.php?error=stmtresultfailure");
-            exit();
-        }
+    if(!($result = $stmt->get_result())){ 
+        header("location: ../adminlogin.php?error=stmtresultfailure");
+        exit();
+    }
 
-        //checks if result has some data in it and return it
-        $data = $result ->fetch_array(MYSQLI_ASSOC);
+    //checks if result has some data in it and return it
+    $data = $result ->fetch_array(MYSQLI_ASSOC);
 
-        if($data){
-            return $data; 
-        }
-        else{ 
-            $result = false;
-            return $result;
-        }
+    if($data){
+        return $data; 
+    }
+    else{
+        $result = false;
+        return $result;
+    }
 
-        $stmt->close();
-
-    }   
+    $stmt->close(); 
 }
 
-function logIn($connect, $uid, $password, $adminLogin){ 
-    //if customer is loginning in 
-    if($adminLogin){
-        $result  = uid_ifExists($uid,$uid,-1,$adminLogin,$connect);
-        if($result){
-            $p = $result["user_password"];
 
-            // $myfile = fopen("newfile.txt", "w") or die("Unable to open file!");
-            // $txt = password_hash("password",PASSWORD_DEFAULT);
-            // fwrite($myfile, $txt);
-            // fclose($myfile);
+function logIn($connect, $uid, $password){
+     
+    $result  = uid_ifExists($connect,$uid,$uid);
+    if($result){
+        $p = $result["user_password"];
 
-            //$p = substr($p,0,60);
-            $check_p = password_verify($password,$p);
+        // $myfile = fopen("newfile.txt", "w") or die("Unable to open file!");
+        // $txt = password_hash("password",PASSWORD_DEFAULT);
+        // fwrite($myfile, $txt);
+        // fclose($myfile);
 
-            if($check_p){
-                session_start();
-                $_SESSION["userid"] = $result["user_ID"]; 
-                $_SESSION["useruid"] = $result["user_username"];
-                $_SESSION["userfname"] = $result["user_fname"];
-                header("location: ../adminindex.php");
-                exit();
-            }
-            else{
-                header("location: ../adminlogin.php?error=passwordIncorrect");
-                exit();
-            }
+        //$p = substr($p,0,60);
+        $check_p = password_verify($password,$p);
 
+        if($check_p){
+            session_start();
+            $_SESSION["userid"] = $result["user_ID"]; 
+            $_SESSION["useruid"] = $result["user_username"];
+            $_SESSION["userfname"] = $result["user_fname"];
+            header("location: ../adminindex.php");
+            exit();
         }
-        else {
-            header("location: ../adminlogin.php?error=doesNotExist");
+        else{
+            header("location: ../adminlogin.php?error=passwordIncorrect");
             exit();
         }
 
     }
-    //admin login
-    else{ 
-        $result  = uid_ifExists($uid,$uid,-1,$adminLogin,$connect);
-        if($result){
-            $p = $result["user_password"];
-            //$p = substr($p,0,60);
-            $check_p = password_verify($password,$p);
-
-            if($check_p){
-                session_start();
-                $_SESSION["userid"] = $result["user_ID"]; 
-                $_SESSION["useruid"] = $result["user_username"];
-                $_SESSION["userfname"] = $result["user_fname"];
-                header("location: ../index.php");
-                exit();
-            }
-            else{
-                header("location: ../login.php?error=passwordIncorrect");
-                exit();
-            }
-
-        }
-        else {
-            header("location: ../login.php?error=doesNotExist");
-            exit();
-        }     
+    else {
+        header("location: ../adminlogin.php?error=doesNotExist");
+        exit();
     }
-
 }
 
 function IsChecked($chkname,$value)

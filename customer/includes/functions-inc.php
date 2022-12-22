@@ -44,88 +44,47 @@ function check_passwordMatch($password, $passwordRepeat){
     return $result;
 }
 
-function uid_ifExists($uid,$email,$passport,$adminLogin,$connect){
-    if($adminLogin){
-         $query_uid = "SELECT * FROM users WHERE (user_username = ? OR user_email = ?) AND user_privlege = 1;";
-         //prepared statements to pass in that SQL statement (prevents code injections) 
-         
-         if(!($stmt = $connect->prepare($query_uid))){ 
-             header("location: ../adminlogin.php?error=stmtpreparefailure");
-             exit();
-         }
- 
-         //binds the statement with the actual data
-         
-         if(!($stmt ->bind_param("ss",$uid,$email))){ 
-             header("location: ../adminlogin.php?error=stmtbindfailure");
-             exit();
-         }
- 
-         if(!($stmt ->execute())){ 
-             header("location: ../adminlogin.php?error=stmtexecutefailure");
-             exit();
-         }
- 
-         if(!($result = $stmt->get_result())){ 
-             header("location: ../adminlogin.php?error=stmtresultfailure");
-             exit();
-         }
- 
-         //checks if result has some data in it and return it
-         $data = $result ->fetch_array(MYSQLI_ASSOC);
- 
-         if($data){
-             return $data; 
-         }
-         else{
-             $result = false;
-             return $result;
-         }
- 
-         $stmt->close(); 
+function uid_ifExists($connect,$uid,$email,$passport){
+    
+    //SQL query to get if the users already exist
+    $query_uid = "SELECT * FROM users WHERE user_username = ? OR user_email = ? OR user_passport_number = ? AND user_privlege = 0;";
+    //prepared statements to pass in that SQL statement (prevents code injections) 
+    
+    if(!($stmt = $connect->prepare($query_uid))){ 
+        header("location: ../signup.php?error=stmtpreparefailure");
+        exit();
+    }
 
+    //binds the statement with the actual data
+    
+    if(!($stmt ->bind_param("sss",$uid,$email,$passport))){ 
+        header("location: ../signup.php?error=stmtbindfailure");
+        exit();
+    }
+
+    if(!($stmt ->execute())){ 
+        header("location: ../signup.php?error=stmtexecutefailure");
+        exit();
+    }
+
+    if(!($result = $stmt->get_result())){ 
+        header("location: ../signup.php?error=stmtresultfailure");
+        exit();
+    }
+
+    //checks if result has some data in it and return it
+    $data = $result ->fetch_array(MYSQLI_ASSOC);
+
+    if($data){
+        return $data; 
     }
     else{ 
-        //SQL query to get if the users already exist
-        $query_uid = "SELECT * FROM users WHERE user_username = ? OR user_email = ? OR user_passport_number = ?;";
-        //prepared statements to pass in that SQL statement (prevents code injections) 
-        
-        if(!($stmt = $connect->prepare($query_uid))){ 
-            header("location: ../signup.php?error=stmtpreparefailure");
-            exit();
-        }
+        $result = false;
+        return $result;
+    }
 
-        //binds the statement with the actual data
-        
-        if(!($stmt ->bind_param("sss",$uid,$email,$passport))){ 
-            header("location: ../signup.php?error=stmtbindfailure");
-            exit();
-        }
+    $stmt->close();
 
-        if(!($stmt ->execute())){ 
-            header("location: ../signup.php?error=stmtexecutefailure");
-            exit();
-        }
-
-        if(!($result = $stmt->get_result())){ 
-            header("location: ../signup.php?error=stmtresultfailure");
-            exit();
-        }
-
-        //checks if result has some data in it and return it
-        $data = $result ->fetch_array(MYSQLI_ASSOC);
-
-        if($data){
-            return $data; 
-        }
-        else{ 
-            $result = false;
-            return $result;
-        }
-
-        $stmt->close();
-
-    }   
 }
 
 function createUser($connect, $fname, $mname, $lname, $phone_num, $email, $passport, $user_priv, $uid, $password){ 
@@ -167,67 +126,30 @@ function logincheck_NotEmpty($username, $password){
     return $result;
 }
 
-function logIn($connect, $uid, $password, $adminLogin){ 
-    //if customer is loginning in 
-    if($adminLogin){
-        $result  = uid_ifExists($uid,$uid,-1,$adminLogin,$connect);
-        if($result){
-            $p = $result["user_password"];
+function logIn($connect, $uid, $password){ 
 
-            // $myfile = fopen("newfile.txt", "w") or die("Unable to open file!");
-            // $txt = password_hash("password",PASSWORD_DEFAULT);
-            // fwrite($myfile, $txt);
-            // fclose($myfile);
+    $result  = uid_ifExists($connect,$uid,$uid,$uid);
+    if($result){
+        $p = $result["user_password"];
+        //$p = substr($p,0,60);
+        $check_p = password_verify($password,$p);
 
-            //$p = substr($p,0,60);
-            $check_p = password_verify($password,$p);
-
-            if($check_p){
-                session_start();
-                $_SESSION["userid"] = $result["user_ID"]; 
-                $_SESSION["useruid"] = $result["user_username"];
-                $_SESSION["userfname"] = $result["user_fname"];
-                header("location: ../adminindex.php");
-                exit();
-            }
-            else{
-                header("location: ../adminlogin.php?error=passwordIncorrect");
-                exit();
-            }
-
-        }
-        else {
-            header("location: ../adminlogin.php?error=doesNotExist");
+        if($check_p){
+            session_start();
+            $_SESSION["userid"] = $result["user_ID"]; 
+            $_SESSION["useruid"] = $result["user_username"];
+            $_SESSION["userfname"] = $result["user_fname"];
+            header("location: ../index.php");
             exit();
         }
-
+        else{
+            header("location: ../login.php?error=passwordIncorrect");
+            exit();
+        }
     }
-    //admin login
-    else{ 
-        $result  = uid_ifExists($uid,$uid,-1,$adminLogin,$connect);
-        if($result){
-            $p = $result["user_password"];
-            //$p = substr($p,0,60);
-            $check_p = password_verify($password,$p);
-
-            if($check_p){
-                session_start();
-                $_SESSION["userid"] = $result["user_ID"]; 
-                $_SESSION["useruid"] = $result["user_username"];
-                $_SESSION["userfname"] = $result["user_fname"];
-                header("location: ../index.php");
-                exit();
-            }
-            else{
-                header("location: ../login.php?error=passwordIncorrect");
-                exit();
-            }
-
-        }
-        else {
-            header("location: ../login.php?error=doesNotExist");
-            exit();
-        }     
+    else {
+        header("location: ../login.php?error=doesNotExist");
+        exit();
     }
 
 }
@@ -295,23 +217,23 @@ function queryFlight($connect, $depCity, $arrCity, $depart_date,$class,$tickets)
     }
 
     if(!($stmt = $connect->prepare($queryflight))){ 
-        header("location: ../index.php?error=stmtpreparefailure");
+        header("location: index.php?error=stmtpreparefailure");
         exit();
     }
 
     //binds the statement with the actual data
     if(!($stmt ->bind_param("ssss",$depAirportID["airport_ID"],$arrAirportID["airport_ID"],$depart_date,$tickets))){ 
-        header("location: ../index.php?error=stmtbindfailure");
+        header("location: index.php?error=stmtbindfailure");
         exit();
     }
 
     if(!($stmt ->execute())){ 
-        header("location: ../index.php?error=stmtexecutefailure");
+        header("location: index.php?error=stmtexecutefailure");
         exit();
     }
 
     if(!($result = $stmt->get_result())){ 
-        header("location: ../index.php?error=stmtresultfailure");
+        header("location: index.php?error=stmtresultfailure");
         exit();
     }
 
@@ -328,24 +250,24 @@ function getAirportInfo($connect, $airportID){
     $query_airport = "SELECT * FROM airports WHERE airport_ID = ?;";
     
     if(!($stmt = $connect->prepare($query_airport))){ 
-        header("location: ../bookflight.php?error=stmtpreparefailure");
+        header("location: bookflight.php?error=stmtpreparefailure");
         exit();
     }
 
     //binds the statement with the actual data
     
     if(!($stmt ->bind_param("s",$airportID))){ 
-        header("location: ../bookflight.php?error=stmtbindfailure");
+        header("location: bookflight.php?error=stmtbindfailure");
         exit();
     }
 
     if(!($stmt ->execute())){ 
-        header("location: ../bookflight.php?error=stmtexecutefailure1");
+        header("location: bookflight.php?error=stmtexecutefailure1");
         exit();
     }
 
     if(!($result = $stmt->get_result())){ 
-        header("location: ../bookflight.php?error=stmtresultfailure");
+        header("location: bookflight.php?error=stmtresultfailure");
         exit();
     }
 
@@ -367,23 +289,23 @@ function bookFlight($connect,$user_ID,$flight_ID1,$flight_date1,$section_class,$
     $query_insert = "INSERT INTO booking(user_ID, flight_ID, flight_date, section, number_tickets, bag_number, ticket_price, ticket_status) VALUES (?,?,?,?,?,?,?,?);";
             
     if(!($stmt = $connect->prepare($query_insert))){ 
-        header("location: ../bookflight.php?error=stmtpreparefailure");
+        header("location: bookflight.php?error=stmtpreparefailure");
         exit();
     }
 
     //binds the statement with the actual data
     if(!($stmt ->bind_param("ssssssss",$user_ID,$flight_ID1,$flight_date1,$section_class,$number_tickets,$bags1,$TOTALPRICE1,$ticket_status))){ 
-        header("location: ../bookflight.php?error=stmtbindfailure");
+        header("location: bookflight.php?error=stmtbindfailure");
         exit();
     }
 
     if(!($stmt ->execute())){ 
-        header("location: ../bookflight.php?error=stmtexecutefailure1");
+        header("location: bookflight.php?error=stmtexecutefailure1");
         exit();
     }
 
 
-    header("location: ../index.php");
+    header("location: index.php?error=none");
     $stmt->close();
     
 }

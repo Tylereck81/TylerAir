@@ -71,7 +71,7 @@
             echo '* CONFIRM THAT INFORMATION IS CORRECT *<br>'; 
             echo '* IF CHANGES NEED TO BE MADE, GO TO PROFILE *<br><br>'; 
 
-            $userinfo = uid_ifExists($user_ID,$user_ID,$user_ID,0,$connect);
+            $userinfo = uid_ifExists($connect,$user_ID,$user_ID,$user_ID);
             echo "Full Name: ";
             echo $userinfo["user_fname"]." ".$userinfo["user_mname"]." ".$userinfo["user_lname"]."<br>";
             echo "Email: ".$userinfo["user_email"]."<br>";
@@ -153,7 +153,7 @@
             echo '* CONFIRM THAT INFORMATION IS CORRECT *<br>'; 
             echo '* IF CHANGES NEED TO BE MADE, GO TO PROFILE *<br><br>'; 
 
-            $userinfo = uid_ifExists($user_ID,$user_ID,$user_ID,0,$connect);
+            $userinfo = uid_ifExists($connect,$user_ID,$user_ID,$user_ID);
             echo "Full Name: ";
             echo $userinfo["user_fname"]." ".$userinfo["user_mname"]." ".$userinfo["user_lname"]."<br>";
             echo "Email: ".$userinfo["user_email"]."<br>";
