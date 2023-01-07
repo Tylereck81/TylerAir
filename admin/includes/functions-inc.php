@@ -258,7 +258,6 @@ function populate_FlightSchedule($connect, $flight_ID, $date_start, $date_end, $
 
     $airplaneinfo = getAirplaneInfo($connect, $airplane);
 
-    $totalSeats = $airplaneinfo["total_capacity"];
     $firstclassSeats = $airplaneinfo["first_class"];
     $economyclassSeats = $airplaneinfo["economy_class"];
     $status = 1;
@@ -268,7 +267,7 @@ function populate_FlightSchedule($connect, $flight_ID, $date_start, $date_end, $
 
         if(check_DateInSchedule($flight_schedule,$date)){
 
-            $query_scheduleFlight = "INSERT INTO flight_schedule(flight_ID,flight_date,total_seats,firstclass_seats,economyclass_seats,flight_status) VALUES(?,?,?,?,?,?);";
+            $query_scheduleFlight = "INSERT INTO flight_schedule(flight_ID,flight_date,firstclass_seats,economyclass_seats,flight_status) VALUES(?,?,?,?,?);";
 
             if(!($stmt = $connect->prepare($query_scheduleFlight))){ 
                 header("location: ../addflights.php?error=stmtpreparefailure2");
@@ -276,7 +275,7 @@ function populate_FlightSchedule($connect, $flight_ID, $date_start, $date_end, $
             }
         
             //binds the statement with the actual data
-            if(!($stmt ->bind_param("ssssss",$flight_ID,$date,$totalSeats,$firstclassSeats,$economyclassSeats,$status))){ 
+            if(!($stmt ->bind_param("sssss",$flight_ID,$date,$firstclassSeats,$economyclassSeats,$status))){ 
                 header("location: ../addflights.php?error=stmtbindfailure2");
                 exit();
             }

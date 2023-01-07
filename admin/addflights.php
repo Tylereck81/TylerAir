@@ -14,10 +14,13 @@
            if($f>100){ 
             echo 'TA'.$f;
            }
-           else{ 
+           elseif($f>10){ 
             echo 'TA0'.$f;
-
            }
+           else{ 
+            echo 'TA00'.$f;
+           }
+
            
         ?>
         <br>

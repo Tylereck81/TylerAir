@@ -285,7 +285,7 @@ function getAirportInfo($connect, $airportID){
     $stmt->close();
 }
 
-function bookFlight($connect,$user_ID,$flight_ID1,$flight_date1,$section_class,$number_tickets,$bags1,$TOTALPRICE1,$ticket_status){ 
+function bookFlight($connect,$user_ID,$flight_ID,$flight_date,$section_class,$number_tickets,$bags,$TOTALPRICE,$ticket_status){ 
     $query_insert = "INSERT INTO booking(user_ID, flight_ID, flight_date, section, number_tickets, bag_number, ticket_price, ticket_status) VALUES (?,?,?,?,?,?,?,?);";
             
     if(!($stmt = $connect->prepare($query_insert))){ 
@@ -294,7 +294,7 @@ function bookFlight($connect,$user_ID,$flight_ID1,$flight_date1,$section_class,$
     }
 
     //binds the statement with the actual data
-    if(!($stmt ->bind_param("ssssssss",$user_ID,$flight_ID1,$flight_date1,$section_class,$number_tickets,$bags1,$TOTALPRICE1,$ticket_status))){ 
+    if(!($stmt ->bind_param("ssssssss",$user_ID,$flight_ID,$flight_date,$section_class,$number_tickets,$bags,$TOTALPRICE,$ticket_status))){ 
         header("location: bookflight.php?error=stmtbindfailure");
         exit();
     }
@@ -304,10 +304,59 @@ function bookFlight($connect,$user_ID,$flight_ID1,$flight_date1,$section_class,$
         exit();
     }
 
+    changeTicketAmount($connect,$flight_ID,$flight_date,$number_tickets,$section_class);
 
     header("location: index.php?error=none");
     $stmt->close();
+
+}
+
+function changeTicketAmount($connect,$flight_ID,$flight_date,$number_tickets,$section_class){
+    if($section_class == "first"){ 
+        $query_update = "UPDATE flight_schedule SET firstclass_seats = firstclass_seats - ? WHERE flight_ID = ? AND flight_date = ?;";
+            
+        if(!($stmt = $connect->prepare($query_update))){ 
+            header("location: bookflight.php?error=stmtpreparefailure");
+            exit();
+        }
+
+        //binds the statement with the actual data
+        if(!($stmt ->bind_param("sss",$number_tickets,$flight_ID,$flight_date))){ 
+            header("location: bookflight.php?error=stmtbindfailure");
+            exit();
+        }
+
+        if(!($stmt ->execute())){ 
+            header("location: bookflight.php?error=stmtexecutefailure1");
+            exit();
+        }
+
+        $stmt->close();
+    }
+    else {
+        $query_update = "UPDATE flight_schedule SET economyclass_seats = economyclass_seats - ? WHERE flight_ID = ? AND flight_date = ?;";
+            
+        if(!($stmt = $connect->prepare($query_update))){ 
+            header("location: bookflight.php?error=stmtpreparefailure");
+            exit();
+        }
+
+        //binds the statement with the actual data
+        if(!($stmt ->bind_param("sss",$number_tickets,$flight_ID,$flight_date))){ 
+            header("location: bookflight.php?error=stmtbindfailure");
+            exit();
+        }
+
+        if(!($stmt ->execute())){ 
+            header("location: bookflight.php?error=stmtexecutefailure1");
+            exit();
+        }
+
+        $stmt->close();
+
+    }
     
+
 }
 
 

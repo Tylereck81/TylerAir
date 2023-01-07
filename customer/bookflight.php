@@ -3,15 +3,20 @@
     include_once 'includes/dbh-inc.php';
     include_once 'includes/functions-inc.php';
 
-    
+    //after confirming the information
     if (isset($_POST['submitted'])){   
-
+  
         $ticket_type = $_SESSION["ticket_type"];
 
+        //booking the round trip ticket
         if($ticket_type == "round_trip"){
-            $user_ID = $_SESSION["userid"];
+
+            //POST BAG INFORMATION 
             $bags1 = $_POST["bags1"]; 
             $bags2 = $_POST["bags2"]; 
+
+            //SESSIONS INFORMATION
+            $user_ID = $_SESSION["userid"];
             $results1 = $_SESSION["results1"];
             $results2 = $_SESSION["results2"];
             $data1 = $results1[$_SESSION["ticket_index1"]];
@@ -24,8 +29,6 @@
             //need to calculate total ticket price for each flight
             $section = $ticket_type;
             $number_tickets = $_SESSION["tickets_amount"];
-            $bags1 = $_POST["bags1"];
-            $bags2 = $_POST["bags2"];
             $section_class = $_SESSION["seat_class"];
             $base_ticket_price1 = ($section_class == "first")? ($data1['firstclass_price']) : ($data1['economyclass_price']);
             $base_ticket_price2 = ($section_class == "first")? ($data2['firstclass_price']) : ($data2['economyclass_price']);
@@ -33,29 +36,63 @@
             $TOTALPRICE2 = ($base_ticket_price2*$number_tickets) + (($bags2-1)*$number_tickets*500);
             $ticket_status = 1;
             
+            //books flight through function
             bookFlight($connect,$user_ID,$flight_ID1,$flight_date1,$section_class,$number_tickets,$bags1,$TOTALPRICE1,$ticket_status);
             bookFlight($connect,$user_ID,$flight_ID2,$flight_date2,$section_class,$number_tickets,$bags2,$TOTALPRICE2,$ticket_status);       
         }
         else{ 
+            //booking the one way ticket
 
+            //POST BAG INFORMATION 
+            $bags = $_POST["bags"]; 
+
+            //SESSIONS INFORMATION
+            $user_ID = $_SESSION["userid"];
+            $results = $_SESSION["results"];
+            $data = $results[$_SESSION["ticket_index"]];
+            $flight_ID = $data["flight_ID"];
+            $flight_date = $data["flight_date"];
+
+            //need to calculate total ticket price for each flight
+            $section = $ticket_type;
+            $number_tickets = $_SESSION["tickets_amount"];
+            $section_class = $_SESSION["seat_class"];
+            $base_ticket_price = ($section_class == "first")? ($data['firstclass_price']) : ($data['economyclass_price']);
+            $TOTALPRICE = ($base_ticket_price*$number_tickets) + (($bags-1)*$number_tickets*500);
+            $ticket_status = 1;
+            
+            //books flight through function
+            bookFlight($connect,$user_ID,$flight_ID,$flight_date,$section_class,$number_tickets,$bags,$TOTALPRICE,$ticket_status);
         }
 
     }
     else{ 
+        //confirming the information before actual booking
 
         $ticket_type = $_SESSION["ticket_type"];
 
         if($ticket_type == "round_trip"){
 
+            //handles user entering in URL without entering data 
+            if($_POST["ticket1"]=="" || $_POST["ticket2"]==""){ 
+                header("location: index.php?error=noinformation");
+                exit();
+            }
+
             $results1 = $_SESSION["results1"];
             $results2 = $_SESSION["results2"];
+
+            //index of row they selected in results1 and results2
             $ticket_index1 = $_POST["ticket1"];
-            $_SESSION["ticket_index1"] = $ticket_index1; 
             $ticket_index2 = $_POST["ticket2"];
-            $_SESSION["ticket_index2"] = $ticket_index2; 
+
             $tickets = $_POST["tickets"];
-            $_SESSION["tickets_amount"] = $tickets; 
             $user_ID = $_SESSION["useruid"];
+
+            //enters information from POST to SESSION to use when we submit form
+            $_SESSION["ticket_index1"] = $ticket_index1; 
+            $_SESSION["ticket_index2"] = $ticket_index2; 
+            $_SESSION["tickets_amount"] = $tickets; 
 
             echo "<form id='form' action='' method='post'>";
 
@@ -133,12 +170,23 @@
         }
         else{
 
+            //handles user entering in URL without entering data 
+            if($_POST["ticket"]==""){ 
+                header("location: index.php?error=noinformation");
+                exit();
+            }
+
             $results = $_SESSION["results"];
-            $tickets = $_POST["tickets"];
-            $_SESSION["tickets_amount"] = $tickets; 
+
+            //index of row they selected in results
             $ticket_index = $_POST["ticket"];
-            $_SESSION["ticket_index"] = $ticket_index; 
+
+            $tickets = $_POST["tickets"];
             $user_ID = $_SESSION["useruid"];
+
+            //enters information from POST to SESSION to use when we submit form
+            $_SESSION["ticket_index"] = $ticket_index;
+            $_SESSION["tickets_amount"] = $tickets; 
 
             echo "<form id='form' action='' method='post'>";
 
@@ -188,7 +236,6 @@
 
             echo '</form>'; 
             echo '<br>';
-
         }
 
     }

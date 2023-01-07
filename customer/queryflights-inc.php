@@ -51,13 +51,14 @@
                 $ticket_index1+=1;  
             }
             echo "</table>"; 
-
+            
+            //holds number of tickets they want to buy
             echo "<input type='hidden' id='tickets' name='tickets' value='".$tickets."'>";
 
             if(isset($_SESSION["userid"])){
-                $_SESSION['ticket_type'] = $ticket_type;
-                $_SESSION['results1'] = $data1;
-                $_SESSION['seat_class'] = $seat_class;
+                $_SESSION['ticket_type'] = $ticket_type; #ticket type
+                $_SESSION['results1'] = $data1; #table results sent to other page
+                $_SESSION['seat_class'] = $seat_class; #which class selection
             }
             
         }
