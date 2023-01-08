@@ -359,6 +359,141 @@ function changeTicketAmount($connect,$flight_ID,$flight_date,$number_tickets,$se
 
 }
 
+function getUserFlights($connect, $userid,$ticket_status){
+    
+    $query_flights = "SELECT * FROM booking WHERE user_ID = ? AND ticket_status = ?";
+    
+    if(!($stmt = $connect->prepare($query_flights))){ 
+        header("location: ../myflights.php?error=stmtpreparefailure");
+        exit();
+    }
+
+    //binds the statement with the actual data
+    if(!($stmt ->bind_param("ss",$userid,$ticket_status))){ 
+        header("location: ../myflights.php?error=stmtbindfailure");
+        exit();
+    }
+
+    if(!($stmt ->execute())){ 
+        header("location: ../myflights.php?error=stmtexecutefailure1");
+        exit();
+    }
+
+    if(!($result = $stmt->get_result())){ 
+        header("location: ../myflights.php?error=stmtresultfailure");
+        exit();
+    }
+
+    if($result){
+        return $result; 
+    }
+    else{ 
+        $result = false;
+        return $result;
+    }
+    $stmt->close();
+} 
+
+function getFlightInfo($connect, $flight_ID){
+    $query_flights = "SELECT * FROM flights WHERE flight_ID = ?;";
+    
+    if(!($stmt = $connect->prepare($query_flights))){ 
+        header("location: ../myflights.php?error=stmtpreparefailure");
+        exit();
+    }
+
+    //binds the statement with the actual data
+    if(!($stmt ->bind_param("s",$flight_ID))){ 
+        header("location: ../myflights.php?error=stmtbindfailure");
+        exit();
+    }
+
+    if(!($stmt ->execute())){ 
+        header("location: ../myflights.php?error=stmtexecutefailure1");
+        exit();
+    }
+
+    if(!($result = $stmt->get_result())){ 
+        header("location: ../myflights.php?error=stmtresultfailure");
+        exit();
+    }
+
+    if($result){
+        return $result; 
+    }
+    else{ 
+        $result = false;
+        return $result;
+    }
+    $stmt->close();
+} 
+
+function userCancelFlight($connect,$ticket_ID,$user_ID, $flight_ID, $flight_date, $number_tickets,$section_class){ 
+    $query_cancel = "UPDATE booking SET ticket_status = 0 WHERE ticket_ID = ? AND user_ID = ? AND flight_ID = ? AND flight_date = ?; ";
+    
+    if(!($stmt = $connect->prepare($query_cancel))){ 
+        header("location: ../myflights.php?error=stmtpreparefailure");
+        exit();
+    }
+
+    //binds the statement with the actual data
+    if(!($stmt ->bind_param("ssss",$ticket_ID,$user_ID,$flight_ID,$flight_date))){ 
+        header("location: ../myflights.php?error=stmtbindfailure");
+        exit();
+    }
+
+    if(!($stmt ->execute())){ 
+        header("location: ../myflights.php?error=stmtexecutefailure1");
+        exit();
+    }
+
+    updateScheduleUserCancel($connect, $flight_ID, $flight_date, $number_tickets,$section_class);
+}
+
+function updateScheduleUserCancel($connect, $flight_ID, $flight_date, $number_tickets,$section_class){
+    if ($section_class == "first"){
+        $query_cancel = "UPDATE flight_schedule SET firstclass_seats = firstclass_seats + ? WHERE flight_ID = ? AND flight_date = ?;";
+        if(!($stmt = $connect->prepare($query_cancel))){ 
+            header("location: ../myflights.php?error=stmtpreparefailure");
+            exit();
+        }
+
+        //binds the statement with the actual data
+        if(!($stmt ->bind_param("sss",$number_tickets,$flight_ID,$flight_date))){ 
+            header("location: ../myflights.php?error=stmtbindfailure");
+            exit();
+        }
+
+        if(!($stmt ->execute())){ 
+            header("location: ../myflights.php?error=stmtexecutefailure1");
+            exit();
+        }
+    }
+    else{
+        $query_cancel = "UPDATE flight_schedule SET economyclass_seats = economyclass_seats + ? WHERE flight_ID = ? AND flight_date = ?;";
+        if(!($stmt = $connect->prepare($query_cancel))){ 
+            header("location: ../myflights.php?error=stmtpreparefailure");
+            exit();
+        }
+
+        //binds the statement with the actual data
+        if(!($stmt ->bind_param("sss",$number_tickets,$flight_ID,$flight_date))){ 
+            header("location: ../myflights.php?error=stmtbindfailure");
+            exit();
+        }
+
+        if(!($stmt ->execute())){ 
+            header("location: ../myflights.php?error=stmtexecutefailure1");
+            exit();
+        } 
+
+    }
+
+}
+
+
+
+
 
 
 ?>
