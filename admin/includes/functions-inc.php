@@ -295,7 +295,7 @@ function populate_FlightSchedule($connect, $flight_ID, $date_start, $date_end, $
 }
 
 function getAirplaneInfo($connect, $airplane){ 
-    $query_airplane = "SELECT * FROM airplanes WHERE airplane_name = ?";
+    $query_airplane = "SELECT * FROM airplanes WHERE airplane_name = ?;";
     
     if(!($stmt = $connect->prepare($query_airplane))){ 
         header("location: ../addflights.php?error=stmtpreparefailure");
@@ -348,5 +348,113 @@ function check_DateInSchedule($flight_schedule,$date){
     }
     return $result;
 }
+
+function queryFlight1($connect, $flight, $flight_date){ 
+    $query_flight = "SELECT * FROM flight_schedule WHERE flight_ID = ? AND flight_date = ?;";
+    
+    if(!($stmt = $connect->prepare($query_flight))){ 
+        header("location: ../manageflights.php?error=stmtpreparefailure");
+        exit();
+    }
+
+    //binds the statement with the actual data
+    
+    if(!($stmt ->bind_param("ss",$flight,$flight_date))){ 
+        header("location: ../manageflights.php?error=stmtbindfailure");
+        exit();
+    }
+
+    if(!($stmt ->execute())){ 
+        header("location: ../manageflights.php?error=stmtexecutefailure");
+        exit();
+    }
+
+    if(!($result = $stmt->get_result())){ 
+        header("location: ../manageflights.php?error=stmtresultfailure");
+        exit();
+    }
+
+    if($result){
+        return $result; 
+    }
+    else{ 
+        $result = false;
+        return $result;
+    }
+
+    $stmt->close();
+} 
+
+function queryFlight2($connect, $flight){ 
+    $query_flight = "SELECT * FROM flight_schedule WHERE flight_ID = ?;";
+
+    if(!($stmt = $connect->prepare($query_flight))){ 
+        header("location: ../manageflights.php?error=stmtpreparefailure");
+        exit();
+    }
+
+    //binds the statement with the actual data
+    
+    if(!($stmt ->bind_param("s",$flight))){ 
+        header("location: ../manageflights.php?error=stmtbindfailure");
+        exit();
+    }
+
+    if(!($stmt ->execute())){ 
+        header("location: ../manageflights.php?error=stmtexecutefailure");
+        exit();
+    }
+
+    if(!($result = $stmt->get_result())){ 
+        header("location: ../manageflights.php?error=stmtresultfailure");
+        exit();
+    }
+
+    if($result){
+        return $result; 
+    }
+    else{ 
+        $result = false;
+        return $result;
+    }
+
+    $stmt->close();
+}
+
+function queryFlight3($connect, $flight_date){ 
+    $query_flight = "SELECT * FROM flight_schedule WHERE flight_date = ?;";
+    
+    if(!($stmt = $connect->prepare($query_flight))){ 
+        header("location: ../manageflights.php?error=stmtpreparefailure");
+        exit();
+    }
+
+    //binds the statement with the actual data
+    
+    if(!($stmt ->bind_param("s",$flight_date))){ 
+        header("location: ../manageflights.php?error=stmtbindfailure");
+        exit();
+    }
+
+    if(!($stmt ->execute())){ 
+        header("location: ../manageflights.php?error=stmtexecutefailure");
+        exit();
+    }
+
+    if(!($result = $stmt->get_result())){ 
+        header("location: ../manageflights.php?error=stmtresultfailure");
+        exit();
+    }
+
+    if($result){
+        return $result; 
+    }
+    else{ 
+        $result = false;
+        return $result;
+    }
+
+    $stmt->close();
+} 
 
 ?>

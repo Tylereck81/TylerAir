@@ -16,7 +16,7 @@
             if($_SESSION["useruid"] == "admin"){
                 echo '<li><a href="adminindex.php">Home</a></li>';
                 echo '<li><a href="addflights.php">Add Flight</a></li>';
-                echo "<li><a href='schedule.php'>Flight Schedule</a></li>";
+                echo "<li><a href='manageflights.php'>Manage Flights</a></li>";
                 echo "<li><a href='includes/adminlogout-inc.php'>Logout</a></li>";
             }
             else{
