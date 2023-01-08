@@ -491,6 +491,48 @@ function updateScheduleUserCancel($connect, $flight_ID, $flight_date, $number_ti
 
 }
 
+function updatePhoneNum($connect, $newPhoneNum, $user_ID){ 
+    $query_edit = "UPDATE users SET user_phone_number = ? WHERE user_username = ?;";
+
+    if(!($stmt = $connect->prepare($query_edit))){ 
+        header("location: ../profile.php?error=stmtpreparefailure");
+        exit();
+    }
+
+    //binds the statement with the actual data
+    if(!($stmt ->bind_param("ss",$newPhoneNum,$user_ID))){ 
+        header("location: ../profile.php?error=stmtbindfailure");
+        exit();
+    }
+
+    if(!($stmt ->execute())){ 
+        header("location:../profile.php?error=stmtexecutefailure1");
+        exit();
+    }
+}
+
+function updatePassword($connect, $newPassword, $user_ID){
+    $query_edit = "UPDATE users SET user_password = ? WHERE user_username = ?;";
+
+    $hash_pwd = password_hash($newPassword,PASSWORD_DEFAULT);
+    
+    if(!($stmt = $connect->prepare($query_edit))){ 
+        header("location:../profile.php?error=stmtpreparefailure");
+        exit();
+    }
+
+    //binds the statement with the actual data
+    if(!($stmt ->bind_param("ss",$hash_pwd,$user_ID))){ 
+        header("location:../profile.php?error=stmtbindfailure");
+        exit();
+    }
+
+    if(!($stmt ->execute())){ 
+        header("location:../profile.php?error=stmtexecutefailure1");
+        exit();
+    }
+}
+
 
 
 
