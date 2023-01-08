@@ -19,6 +19,16 @@
                 echo "Ticket ID: " .($row['ticket_ID'])."<br>";
                 echo "Flight ID: " .($row['flight_ID'])."<br>";
                 echo "Flight Date: " . ($row['flight_date'])."<br>";
+                $flight_result = getFlightInfo($connect,$row['flight_ID']);
+                while($row2 = $flight_result->fetch_array(MYSQLI_ASSOC)){
+                    
+                    $depAirp = getAirportInfo($connect, $row2['departure_airport']);
+                    $arrAirp = getAirportInfo($connect, $row2['destination_airport']);
+                    echo '('.$depAirp["city"].' -> '.$arrAirp["city"].')<br>';
+                    
+                    echo $depAirp["airport_name"] ." (". $depAirp["airport_ID"].") to " . $arrAirp["airport_name"] ." (". $arrAirp["airport_ID"].")<br>";
+                }
+
                 if ($row['section'] == "first")
                     echo "Section: First Class <br>";
                 else 
@@ -47,6 +57,16 @@
                 echo "Ticket ID: " .($row['ticket_ID'])."<br>";
                 echo "Flight ID: " .($row['flight_ID'])."<br>";
                 echo "Flight Date: " . ($row['flight_date'])."<br>";
+                $flight_result = getFlightInfo($connect,$row['flight_ID']);
+                while($row2 = $flight_result->fetch_array(MYSQLI_ASSOC)){
+                    
+                    $depAirp = getAirportInfo($connect, $row2['departure_airport']);
+                    $arrAirp = getAirportInfo($connect, $row2['destination_airport']);
+                    echo '('.$depAirp["city"].' -> '.$arrAirp["city"].')<br>';
+                    
+                    echo $depAirp["airport_name"] ." (". $depAirp["airport_ID"].") to " . $arrAirp["airport_name"] ." (". $arrAirp["airport_ID"].")<br>";
+                }
+
                 if ($row['section'] == "first")
                     echo "Section: First Class <br>";
                 else 
@@ -70,6 +90,16 @@
                 echo "Ticket ID: " .($row['ticket_ID'])."<br>";
                 echo "Flight ID: " .($row['flight_ID'])."<br>";
                 echo "Flight Date: " . ($row['flight_date'])."<br>";
+                $flight_result = getFlightInfo($connect,$row['flight_ID']);
+                while($row2 = $flight_result->fetch_array(MYSQLI_ASSOC)){
+                    
+                    $depAirp = getAirportInfo($connect, $row2['departure_airport']);
+                    $arrAirp = getAirportInfo($connect, $row2['destination_airport']);
+                    echo '('.$depAirp["city"].' -> '.$arrAirp["city"].')<br>';
+                    
+                    echo $depAirp["airport_name"] ." (". $depAirp["airport_ID"].") to " . $arrAirp["airport_name"] ." (". $arrAirp["airport_ID"].")<br>";
+                }
+
                 if ($row['section'] == "first")
                     echo "Section: First Class <br>";
                 else 
