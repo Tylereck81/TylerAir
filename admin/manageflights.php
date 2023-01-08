@@ -6,7 +6,7 @@
 
 
 <h2>Manage Flights</h2>
-    <form id = "form" method="post">
+    <form id = "form1" method="post">
 
         Flights: <select name="flight" id = "flight"> 
             <option value="">..Select...</option> 
@@ -35,6 +35,7 @@
     </form>
 
 <?php
+    //first does query 
     if(isset($_POST["submitted"])){
         $flight="";
         $flight_date="";
@@ -47,22 +48,30 @@
         
         if($flight !="" && $flight_date!=""){  //query both
             
+            echo "<form id='form2' method='post'>";
 
             $results = queryFlight1($connect, $flight, $flight_date);
             $index = 0;
             if(mysqli_num_rows($results)){
-
+                $data = array();
+                
                 echo "<table>";
                 echo "<tr><th>Flight #</th><th>Flight Date</th><th>First Class Seats</th><th>Economy Class Seats</th><th>Cancel</th></tr>";
                 while($row = $results->fetch_array(MYSQLI_ASSOC)){
 
-                    $cancel_checkbox = '<input type="checkbox" name="selected_rows[]" value='.$index.'.><br>';
+                    $cancel_checkbox = '<input type="checkbox" name="selected_rows[]" value='.$index.'><br>';
                     
                     echo "<tr><td>" .($row['flight_ID']) . "</td><td>" . ($row['flight_date']) . "</td><td>" . ($row['firstclass_seats']) . "</td><td>". ($row['firstclass_seats']) ."</td><td>".$cancel_checkbox."</td></tr>";  
                     
+                    $data[] = $row;
                     $index+=1;  
                 }
                 echo "</table>"; 
+                echo "<input type='hidden' name='size' value=".$index.">";
+                echo '<input type="hidden" name="submitted2" value="1">';
+                echo "<input type='button' onclick='check2()' value='Cancel Flights(s)'>";
+                $_SESSION['results'] = $data;
+
             }
             else{ 
                 echo 'No Flights Found';
@@ -70,49 +79,85 @@
 
         }
         else if($flight!=""){ //query just flight 
+
+            echo "<form id='form2' method='post'>";
+
             $results = queryFlight2($connect, $flight);
             $index = 0;
-
+            
             if(mysqli_num_rows($results)){
+                $data = array();
+            
+                echo "<table>";
+                echo "<tr><th>Flight #</th><th>Flight Date</th><th>First Class Seats</th><th>Economy Class Seats</th><th>Cancel</th></tr>";
+                while($row = $results->fetch_array(MYSQLI_ASSOC)){
 
-            echo "<table>";
-            echo "<tr><th>Flight #</th><th>Flight Date</th><th>First Class Seats</th><th>Economy Class Seats</th><th>Cancel</th></tr>";
-            while($row = $results->fetch_array(MYSQLI_ASSOC)){
+                    $cancel_checkbox = '<input type="checkbox" name="selected_rows[]" value='.$index.'><br>';
+                    
+                    echo "<tr><td>" .($row['flight_ID']) . "</td><td>" . ($row['flight_date']) . "</td><td>" . ($row['firstclass_seats']) . "</td><td>". ($row['firstclass_seats']) ."</td><td>".$cancel_checkbox."</td></tr>";  
+                    
+                    $data[] = $row;
+                    $index+=1;  
+                }
+                echo "</table>"; 
+                echo "<input type='hidden' name='size' value=".$index.">";
+                echo '<input type="hidden" name="submitted2" value="1">';
+                echo "<input type='button' onclick='check2()' value='Cancel Flights(s)'>";
+                $_SESSION['results'] = $data;
 
-                $cancel_checkbox = '<input type="checkbox" name="selected_rows[]" value='.$index.'.><br>';
-                
-                echo "<tr><td>" .($row['flight_ID']) . "</td><td>" . ($row['flight_date']) . "</td><td>" . ($row['firstclass_seats']) . "</td><td>". ($row['firstclass_seats']) ."</td><td>".$cancel_checkbox."</td></tr>";  
-                
-                $index+=1;  
-            }
-            echo "</table>"; 
             }
             else{ 
                 echo 'No Flights Found';
             }
         }
         else{  //querry just date
+            echo "<form id='form2' method='post'>";
+
             $results = queryFlight3($connect, $flight_date);
             $index = 0;
 
             if(mysqli_num_rows($results)){
+                $data = array();
+
                 echo "<table>";
                 echo "<tr><th>Flight #</th><th>Flight Date</th><th>First Class Seats</th><th>Economy Class Seats</th><th>Cancel</th></tr>";
                 while($row = $results->fetch_array(MYSQLI_ASSOC)){
 
-                    $cancel_checkbox = '<input type="checkbox" name="selected_rows[]" value='.$index.'.><br>';
+                    $cancel_checkbox = '<input type="checkbox" name="selected_rows[]" value='.$index.'><br>';
                     
                     echo "<tr><td>" .($row['flight_ID']) . "</td><td>" . ($row['flight_date']) . "</td><td>" . ($row['firstclass_seats']) . "</td><td>". ($row['firstclass_seats']) ."</td><td>".$cancel_checkbox."</td></tr>";  
                     
+                    $data[] = $row;
                     $index+=1;  
                 }
-                echo "</table>"; 
+                echo "</table>";
+                echo "<input type='hidden' name='size' value=".$index.">";
+                echo '<input type="hidden" name="submitted2" value="1">';
+                echo "<input type='button' onclick='check2()' value='Cancel Flights(s)'>";
+                $_SESSION['results'] = $data;
+
             }
             else{ 
                 echo 'No Flights Found';
             }
         }
     }
+
+    if(isset($_POST["submitted2"])){
+        $selected_rows = $_POST["selected_rows"]; 
+        $size = $_POST["size"];
+        $results = $_SESSION['results'];
+        
+
+        for($i = 0; $i<$size; $i++){ 
+            if (IsChecked('selected_rows',$i)){ 
+                $d = $results[$i];
+                adminCancelFlight($connect, $d["flight_ID"],$d["flight_date"]);
+            }
+
+        }
+    }
+
 
 
 ?>
@@ -126,12 +171,22 @@
                 Error="Please enter either flight or flight date or both";
             }
             if(Error==""){
-                document.getElementById("form").submit();
+                document.getElementById("form1").submit();
             }
             else{ 
                 alert(Error);
             }
 
+        }
+
+        function check2(){ 
+            const checkbox_check = document.querySelectorAll('input[type="checkbox"]:checked').length > 0;
+            if(checkbox_check){
+                document.getElementById("form2").submit();
+            }
+            else{ 
+                alert("Please select one or more flights to cancel");
+            }
         }
 
 </script>

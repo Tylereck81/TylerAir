@@ -350,7 +350,7 @@ function check_DateInSchedule($flight_schedule,$date){
 }
 
 function queryFlight1($connect, $flight, $flight_date){ 
-    $query_flight = "SELECT * FROM flight_schedule WHERE flight_ID = ? AND flight_date = ?;";
+    $query_flight = "SELECT * FROM flight_schedule WHERE flight_ID = ? AND flight_date = ? AND flight_status = 1;";
     
     if(!($stmt = $connect->prepare($query_flight))){ 
         header("location: ../manageflights.php?error=stmtpreparefailure");
@@ -386,7 +386,7 @@ function queryFlight1($connect, $flight, $flight_date){
 } 
 
 function queryFlight2($connect, $flight){ 
-    $query_flight = "SELECT * FROM flight_schedule WHERE flight_ID = ?;";
+    $query_flight = "SELECT * FROM flight_schedule WHERE flight_ID = ?  AND flight_status = 1;";
 
     if(!($stmt = $connect->prepare($query_flight))){ 
         header("location: ../manageflights.php?error=stmtpreparefailure");
@@ -422,7 +422,7 @@ function queryFlight2($connect, $flight){
 }
 
 function queryFlight3($connect, $flight_date){ 
-    $query_flight = "SELECT * FROM flight_schedule WHERE flight_date = ?;";
+    $query_flight = "SELECT * FROM flight_schedule WHERE flight_date = ?  AND flight_status = 1;";
     
     if(!($stmt = $connect->prepare($query_flight))){ 
         header("location: ../manageflights.php?error=stmtpreparefailure");
@@ -452,6 +452,29 @@ function queryFlight3($connect, $flight_date){
     else{ 
         $result = false;
         return $result;
+    }
+
+    $stmt->close();
+} 
+
+function adminCancelFlight($connect, $flight_ID, $flight_date){ 
+    $query_cancel = " UPDATE flight_schedule SET flight_status = 0 WHERE flight_ID = ?  AND flight_date = ?;";
+    
+    if(!($stmt = $connect->prepare($query_cancel))){ 
+        header("location: manageflights.php?error=stmtpreparefailure");
+        exit();
+    }
+
+    //binds the statement with the actual data
+    
+    if(!($stmt ->bind_param("ss",$flight_ID,$flight_date))){ 
+        header("location: manageflights.php?error=stmtbindfailure");
+        exit();
+    }
+
+    if(!($stmt ->execute())){ 
+        header("location: manageflights.php?error=stmtexecutefailure");
+        exit();
     }
 
     $stmt->close();

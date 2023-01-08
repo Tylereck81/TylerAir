@@ -40,7 +40,7 @@
             $data1 = array();
             
             echo "<table>";
-            echo "<tr><th>Flight #</th><th>Departure Time</th><th>Arrival Time</th><th>Price</th><th>Buy</th><th>Flight Status</th></tr>";
+            echo "<tr><th>Flight #</th><th>Departure Time</th><th>Arrival Time</th><th>Price</th><th>Buy</th></tr>";
             while($row = $result1->fetch_array(MYSQLI_ASSOC)){
                 $seat_disp = ($seat_class == "first")? ($row['firstclass_price']) : ($row['economyclass_price']);
                 $log_disp = (isset($_SESSION["userid"]))? " <input type='radio' name='ticket1' value='".$ticket_index1."'>" : "Login to Continue";
