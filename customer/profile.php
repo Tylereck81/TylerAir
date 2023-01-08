@@ -46,7 +46,7 @@ if(isset($_SESSION["useruid"])){
         if(isset($_POST["pwd"]) && isset($_POST["pwdrepeat"])){ 
             $pwd = $_POST["pwd"];
             updatePassword($connect, $pwd, $useruid);
-            header("Refresh:0");
+            header("location: includes/logout-inc.php");
         }
     }
 
@@ -99,6 +99,7 @@ else{
             }
         }
         else if(document.getElementById("editpn").disabled == false){ 
+            //change JUST phone number
             var Error = "";
             var phone_num = document.getElementById("editpn").value;
 
@@ -117,6 +118,7 @@ else{
             }
         }
         else{ 
+            //change JUST password
             var Error = "";
             var password1 = document.getElementById("editp1").value;
             var password2 = document.getElementById("editp2").value;
@@ -128,7 +130,7 @@ else{
                 Error += "Please enter in same password\n";
             }
             if(Error==""){
-                const response = confirm("Are you sure you want to change?"); 
+                const response = confirm("Are you sure you want to change? Changing password will result in automatic sign out."); 
                 if(response){
                     document.getElementById("form").submit();
                 }
