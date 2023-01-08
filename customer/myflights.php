@@ -134,19 +134,6 @@
 
 ?>
 
-<script>
-
-    function check(clicked_id){
-        var ID = clicked_id;
-        const response = confirm("Are you sure you want to cancel?"); 
-        if(response){
-            document.cookie = "delID = " + ID;
-            window.location.reload();
-        }
-    }
-</script>
-
-
 <?php
     include_once 'footer.php'
 ?> 
