@@ -22,7 +22,7 @@
         ?>
         </label>
 
-        <div class="page-subtitle-title"><hr>Departure<hr></div>
+        <div class="page-subtitle-title"><hr>Departure</div>
         
        
         <br>
@@ -46,7 +46,7 @@
         <input type="time" name="departure_time" id = "departure_time" required > 
         <br><br>
 
-        <div class="page-subtitle-title"><hr>Arrival<hr></div>
+        <div class="page-subtitle-title"><hr>Arrival</div>
         <label>Arrival City:</label> <select name="arrivalCity" id = "arrivalCity" required> 
             <option value="">..Select...</option> 
             <?php
@@ -64,7 +64,7 @@
         <label>Arrival Time: </label>
         <input type="time" name="arrival_time" id = "arrival_time" required > 
         <br><br>
-        <div class="page-subtitle-title"><hr>Schedule<hr></div>
+        <div class="page-subtitle-title"><hr>Schedule</div>
         <label>Date Start:</label>
         <input type="date" name="start_date" id = "start_date" required />
         <br>
@@ -84,7 +84,7 @@
         </label>
 
         <br>
-        <div class="page-subtitle-title"><hr>Airplane<hr></div>
+        <div class="page-subtitle-title"><hr>Airplane</div>
         <label>Airplane Name:</label>
         <select name="airplane" id = "airplane" required> 
             <option value="">..Select...</option> 
