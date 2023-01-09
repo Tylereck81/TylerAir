@@ -13,6 +13,23 @@
         ?>
     <hr>
 
+    <?php
+        if(isset($_GET["error"])){ 
+            $ERRORS = "";
+            if($_GET["error"] == "inputempty"){ 
+                $ERRORS.="Input Empty: Please fill in all required fields";
+            }
+            else if($_GET["error"] == "doesNotExist"){ 
+                $ERRORS.= "Admin Username does not exist";
+            }
+            else if($_GET["error"] =="passwordIncorrect"){ 
+                $ERRORS.= "Password is incorrect";
+            }
+            echo '<span class="error">'.$ERRORS.' </span>';
+        }
+
+    ?> 
+
     <div class = "page-title">Admin Login</div>
     <form id = "form" style ="height:15%;" action="includes/adminlogin-inc.php" method="post">
     <div id = "parent" style="text-align:center; background-color: #333;" >
@@ -27,21 +44,6 @@
     </div>
 
     </form>
-
-    <?php
-        if(isset($_GET["error"])){ 
-            if($_GET["error"] == "inputempty"){ 
-                echo "<p>Input Empty: Please fill in all required fields.</p>";
-            }
-            else if($_GET["error"] == "doesNotExist"){ 
-                echo "<p>Admin Username does not exist.</p>";
-            }
-            else if($_GET["error"] =="passwordIncorrect"){ 
-                echo "<p>Password is incorrect.</p>";
-            }
-        }
-
-    ?> 
 
     </body>
 </html>

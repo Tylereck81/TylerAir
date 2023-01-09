@@ -6,7 +6,7 @@
 
 
 <div class="page-title">Add Flights</div>
-    <form id = "form" style = "height:115%;" action="includes/addflights-inc.php" method="post">
+    <form id = "form" style = "height:125%;" action="includes/addflights-inc.php" method="post">
 
         <label>Flight ID: <?php 
            $f = getMax($connect,1) +1;
