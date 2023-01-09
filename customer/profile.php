@@ -3,7 +3,7 @@
     include_once 'includes/dbh-inc.php';
     include_once 'includes/functions-inc.php';
 ?>
-<div class="page-title">Profile</div>
+<div class="page-title">Profile Information</div>
 <?php 
 
 if(isset($_SESSION["useruid"])){
@@ -11,28 +11,34 @@ if(isset($_SESSION["useruid"])){
     $info = uid_ifExists($connect,$useruid,$useruid,$useruid); 
     if($info){
         
-        echo 'Edit Personal Information<br><br>';
-        echo 'First Name<br>';
-        echo '<input type= "text" name="fname" value='.$info["user_fname"].' disabled="disable"><br><br>';
-        echo 'Middle Name<br>';
-        echo '<input type= "text" name="mname" value='.$info["user_mname"].' disabled="disable"><br><br>';
-        echo 'Last Name<br>';
-        echo '<input type= "text" name="lname" value='.$info["user_lname"].' disabled="disable"><br><br>';
-        echo 'Email<br>';
-        echo '<input type= "text" name="email" value='.$info["user_email"].' disabled="disable"><br><br>';
-        echo 'Passport<br>';
-        echo '<input type= "text" name="passport" value='.$info["user_passport_number"].' disabled="disable"><br><br>';
-        echo 'Username<br>';
-        echo '<input type= "text" name="uid" value='.$useruid.' disabled="disable"><br><br>';
-        echo '<form id = "form" method="post">';
-        echo 'Phone Number<br>';
+        echo '<form style="width:50%; height:42%;" id = "form" method="post">';
+        echo '<label>Name</label><br><br>';
+        echo 'First Name ';
+        echo '<input style="color:#fff;" type= "text" name="fname" value='.$info["user_fname"].' disabled="disable">';
+        echo 'Middle Name ';
+        echo '<input style="color:#fff;" type= "text" name="mname" value='.$info["user_mname"].' disabled="disable">';
+        echo 'Last Name ';
+        echo '<input style="color:#fff;" type= "text" name="lname" value='.$info["user_lname"].' disabled="disable"><br><br>';
+
+        echo '<label>Personal Information</label><br><br>';
+
+        echo 'Email ';
+        echo '<input style="color:#fff;" type= "text" name="email" value='.$info["user_email"].' disabled="disable">';
+        echo 'Passport ';
+        echo '<input style="color:#fff;" type= "text" name="passport" value='.$info["user_passport_number"].' disabled="disable">';
+        echo 'Phone Number ';
         echo '<input type= "tel" id = "editpn" pattern="[0-9]{3}-[0-9]{3}-[0-9]{3}" name="phone_num" value='.$info["user_phone_number"].' disabled="disable" >';
         echo '<input type="button" onclick="enable_edit_phone_number()" value="Edit"><br><br>';
+
+        echo '<label>Login Credentials</label><br><br>';
+        
+        echo 'Username ';
+        echo '<input style="color:#fff;" type= "text" name="uid" value='.$useruid.' disabled="disable">';
         echo 'Password ';
-        echo '<input type="button" onclick="enable_edit_password()" value="Edit"><br>';
-        echo '<input type= "password" id = "editp1" name="pwd" placeholder="Password"  disabled="disable"><br>';
-        echo '<input type= "password" id = "editp2" name="pwdrepeat" placeholder="Repeat Password"  disabled="disable"><br>';
-        echo '<br>';
+        echo '<input type="button" onclick="enable_edit_password()" value="Edit">';
+        echo '<input type= "password" id = "editp1" name="pwd" placeholder="Password"  disabled="disable">';
+        echo 'Password ';
+        echo '<input type= "password" id = "editp2" name="pwdrepeat" placeholder="Repeat Password"  disabled="disable"><br><br>';
         echo '<input type="hidden" name="submitted" value="1" />';
         echo '<input type="button" id = "sub" onclick="check()" value="Make Changes" disabled="disable">';
         

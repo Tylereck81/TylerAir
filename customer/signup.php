@@ -35,7 +35,7 @@
         <input style ="width:31%;" type= "password" name="pwdrepeat" placeholder="Repeat Password">
         <br>
         <br>
-        <input type='button' onclick='check()' value="Sign Up">
+        <input type="submit" name = "submit" value="Sign Up">
     </form>
 
     <?php
@@ -64,6 +64,7 @@
         }
 
     ?>
+    
 
 <?php
     include_once 'footer.php'

@@ -31,7 +31,8 @@ form select {
 
 
 
-form input[type="button"] {
+form input[type="button"],
+form input[type="submit"] {
     background-color: #0b74e6;
     float:right;
     color: white;
@@ -87,6 +88,7 @@ nav a:hover {
     color: #333;
 }
 
+
 #radio_titles{ 
     color: #fff;
     font-size: 23px;
@@ -94,17 +96,25 @@ nav a:hover {
     text-decoration: none;
 }
 
-#from{ 
-    margin-right:10px;
-}
-
-#to{ 
-    margin-right:10px;
-}
-
 #clicks{ 
     font-size:20px;
 }
 
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even){background-color: #f2f2f2}
+
+th {
+    background-color: #4CAF50;
+    color: white;
+}
 
 

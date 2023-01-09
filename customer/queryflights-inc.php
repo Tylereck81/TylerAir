@@ -10,6 +10,8 @@
     $ticket_type = $_POST["ticket_type"];
     $seat_class = $_POST["seat_class"];
     $tickets = $_POST["tickets"];
+
+    echo '<div class="page-title">Query Results:</div>';
     
 
     //round trip searches two tickets
@@ -29,10 +31,12 @@
 
 
         /************************ DEPARTURE FLIGHT *************************/
-        echo "<h2>".$depCity." to ".$arrCity."</h2>";
-        echo "<h3> Departure Date: ".$depart_date."</h3>";
 
         echo "<form id='form' action='bookflight.php' method='post'>";
+        echo "<input type='button' onclick='check2()' value='Book Ticket'>";
+
+        echo "<h2>".$depCity." to ".$arrCity."</h2>";
+        echo "<h3> Departure Date: ".$depart_date."</h3>";
 
         if(mysqli_num_rows($result1)){ //if there is any flights
             
@@ -99,9 +103,6 @@
         else{
             echo "<h3> NO FLIGHTS FOUND </h3>";
         }
-
-        echo "<input type='button' onclick='check2()' value='Book Ticket'>";
-      
     }
     else{ 
         $ticket_index = 0;
@@ -114,15 +115,16 @@
 
         $result = queryFlight($connect, $depCity, $arrCity, $depart_date,$seat_class,$tickets);
 
-        echo "<h2>".$depCity." to ".$arrCity."</h2>";
-        echo "<h3> Departure Date: ".$depart_date."</h3>";
-
         if(mysqli_num_rows($result)){ //if there is any flights
             
             //data array stores the results data in session
             $data = array();
 
             echo "<form id='form' action='bookflight.php' method='post'>";
+            echo "<input type='button' onclick='check()' value='Book Ticket'>";
+
+            echo "<h2>".$depCity." to ".$arrCity."</h2>";
+            echo "<h3> Departure Date: ".$depart_date."</h3>";
             
             echo "<table>";
             echo "<tr><th>Flight #</th><th>Departure Time</th><th>Arrival Time</th><th>Price</th><th>Buy</th></tr>";
@@ -144,8 +146,6 @@
                 $_SESSION['results'] = $data;
                 $_SESSION['seat_class'] = $seat_class;
             }
-       
-            echo "<input type='button' onclick='check()' value='Book Ticket'>";
             
         }
         else{

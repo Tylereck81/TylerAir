@@ -3,7 +3,7 @@
 ?>
 
 <div class="page-title">Login</div>
-    <form  style = "height:26%;" action="includes/login-inc.php" method="post">
+    <form  style = "height:23%;" action="includes/login-inc.php" method="post">
         <div id = "parent" style="text-align:center; background-color: #333;" >
             <div id="child">
                 <label>Username/Email</label>
@@ -17,8 +17,7 @@
                 <br>
                 <input type= "password" name="pwd" placeholder="Password">
                 <br>
-                <br>
-                <input style = "float:center;" type='button' onclick='check()' value="Login">
+                <input type='submit' name="submit">
             </div>
         </div>
         
