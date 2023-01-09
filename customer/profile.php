@@ -3,6 +3,7 @@
     include_once 'includes/dbh-inc.php';
     include_once 'includes/functions-inc.php';
 ?>
+<div class="page-title">Profile</div>
 <?php 
 
 if(isset($_SESSION["useruid"])){

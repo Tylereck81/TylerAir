@@ -16,16 +16,17 @@
 ?> 
 
 
-<h2>Query Flights</h2>
+<div class="page-title">Flight Inquiry</div>
     <form id = "form" action="queryflights-inc.php" method="post">
         
-        <input type="radio" name="ticket_type" value="round_trip" checked = "checked" >Round Trip
-        <input type="radio" name="ticket_type" value="one_way">One Way
+        <label id = "radio_titles">Round Trip</label><input type="radio" name="ticket_type" value="round_trip" checked = "checked" >
+        <label id = "radio_titles">One Way</label><input type="radio" name="ticket_type" value="one_way">
         <br>
         <br>
 
 
-        From: <select name="departureCity" id = "departureCity" required> 
+
+        <label style="margin-left:25px;">From:</label> <select style="margin-right:49px" name="departureCity" id = "departureCity" required> 
             <option value="">..Select...</option> 
             <?php
             
@@ -38,10 +39,10 @@
            <?php 
            }
            ?>
-        </select> <br>
+        </select>
 
 
-        To: <select name="arrivalCity" id = "arrivalCity" required> 
+        <label >To:</label> <select name="arrivalCity" id = "arrivalCity" required> 
             <option value="">..Select...</option> 
             <?php
 
@@ -54,26 +55,24 @@
            <?php 
            }
            ?>
-        </select> <br>
+        </select>
 
-        Class: <select name="seat_class" id = "seat_class" required> 
+        <label>Class:</label> <select name="seat_class" id = "seat_class" required> 
             <option value="">..Select...</option> 
             <option value="first">First Class</option> 
             <option value="econ">Economy</option> 
         </select> <br>
        
-        <br><br>
-        Depart:
+        <label style="margin-right:8px;">Depart:</label>
         <input type="date" name="depart_date" id = "depart_date" required />
-        <br>
 
-        Return:
+        <label>Return:</label>
         <input type="date" name="return_date" id = "return_date" required />
         <br> 
         <br>
         
 
-        Number of Tickets:<br>
+        <label>Number of Tickets:</label>
         <button type="button" onclick="onMinusClick()">-</button>
         <a id="clicks">1</a>
         <button type="button" onclick="onAddClick()">+</button>

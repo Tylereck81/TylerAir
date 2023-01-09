@@ -1,0 +1,110 @@
+form {
+    width: 70%;
+    margin: 0px auto;
+    text-align: left;
+    padding: 20px;
+    border: 1px solid #fff;
+    border-radius: 5px;
+    background-color: #333;
+    color:#fff
+}
+  
+form label {
+    margin-left:10px;
+    margin-right:5px;
+    margin-bottom: 5px;
+    font-size: 23px;
+}
+
+
+form input[type="text"],
+form input[type="date"],
+form input[type="tel"],
+form input[type="password"],
+form select {
+    width: 20%;
+    padding: 10px;
+    margin-bottom: 5px;
+    margin-right: 10px;
+    border: 1px solid #fff;
+}
+
+
+
+form input[type="button"] {
+    background-color: #0b74e6;
+    float:right;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+form input[type="button"]:hover {
+    background-color: #0b4d94;
+}
+
+form .error {
+    color: red;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    color: #fff;
+    padding: 0 20px;
+}
+  
+nav ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav li {
+    margin: 0 10px;
+}
+
+nav a {
+    color: #fff;
+    font-size: 25px;
+    text-decoration: none;
+}
+
+nav a:hover {
+    color: #ccc;
+}
+
+.page-title {
+    text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+    margin: 50px 0 20px 0;
+    color: #333;
+}
+
+#radio_titles{ 
+    color: #fff;
+    font-size: 23px;
+    margin-left:10px;
+    text-decoration: none;
+}
+
+#from{ 
+    margin-right:10px;
+}
+
+#to{ 
+    margin-right:10px;
+}
+
+#clicks{ 
+    font-size:20px;
+}
+
+
+

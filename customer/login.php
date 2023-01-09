@@ -2,11 +2,26 @@
     include_once 'header.php'
 ?>
 
-<h2>Login</h2>
-    <form action="includes/login-inc.php" method="post">
-        <input type= "text" name="uid" placeholder="Username/Email"> 
-        <input type= "password" name="pwd" placeholder="Password">
-        <button type="submit" name="submit">Login</button>
+<div class="page-title">Login</div>
+    <form  style = "height:26%;" action="includes/login-inc.php" method="post">
+        <div id = "parent" style="text-align:center; background-color: #333;" >
+            <div id="child">
+                <label>Username/Email</label>
+                <br>
+                <input type= "text" name="uid" placeholder="Username/Email"> 
+            </div>
+        
+            <br>
+            <div id="child">
+                <label>Password</label>
+                <br>
+                <input type= "password" name="pwd" placeholder="Password">
+                <br>
+                <br>
+                <input style = "float:center;" type='button' onclick='check()' value="Login">
+            </div>
+        </div>
+        
 
     </form>
 

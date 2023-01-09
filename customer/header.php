@@ -5,12 +5,13 @@
 
 <html>
     <head> 
+        <link rel="stylesheet" type = "text/css" href="style.css">
         <meta charset="utf-8"> 
         <title>Tyler Air</title>
     </head>
     <body>
+    <a href="index.php"><img style = "display: inline-block; margin-right: 20px;"src="TA_logo.png" alt="Tyler Air" height = "150px" width = " 300px"></a>
         <nav>
-
         <ul>
             <li><a href="index.php">Home</a></li>
             <?php 

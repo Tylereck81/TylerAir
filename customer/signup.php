@@ -2,19 +2,40 @@
     include_once 'header.php'
 ?> 
 
-<h2>Sign Up</h2>
-    <form action="includes/signup-inc.php" method="post">
-        <input type= "text" name="fname" placeholder="First Name"> 
-        <input type= "text" name="mname" placeholder="Middle Name"> 
-        <input type= "text" name="lname" placeholder="Last Name"> 
-        <input type= "tel" name="phone_num" placeholder="123-456-789" pattern="[0-9]{3}-[0-9]{3}-[0-9]{3}">
-        <input type= "text" name="email" placeholder="Email">
-        <input type= "text" name="passport" placeholder="Passport Number">
-        <input type= "text" name="uid" placeholder="Username"> 
-        <input type= "password" name="pwd" placeholder="Password">
-        <input type= "password" name="pwdrepeat" placeholder="Repeat Password">
-        <button type="submit" name="submit">Sign Up</button>
+<div class="page-title">Sign Up</div>
+    <form style = "height:70%;" action="includes/signup-inc.php" method="post">
+        <label style="display: inline-block; margin-right: 20px;">Full Name: </label><br>
+        <br>
+        <label style="display: inline-block; margin-right: 10px; ">First Name </label><input style ="width:30%;" type= "text" name="fname" placeholder="First Name"> 
+        <label style="display: inline-block; margin-right: 10px; ">Middle Name(s) </label><input style ="width:30%;" type= "text" name="mname" placeholder="Middle Name"><br><br>
+        <label style="display: inline-block; margin-right: 12px;">Last Name </label><input style ="width:30%;" type= "text" name="lname" placeholder="Last Name"> 
+        <br>
+        <br>
+        <br>
 
+        <label style="display: inline-block; margin-right: 20px;">Personal Information: </label><br><br>
+        <label>Telephone Number</label>
+        <input style ="width:24.5%;" type= "tel" name="phone_num" placeholder="123-456-789" pattern="[0-9]{3}-[0-9]{3}-[0-9]{3}">
+        <label>Email </label>
+        <input style ="width:38%;" type= "text" name="email" placeholder="Email"><br><br>
+        <label>Passport Number </label>
+        <input style ="width:25.5%;" type= "text" name="passport" placeholder="Passport Number">
+        <br>
+        <br>
+        <br>
+        <label style="display: inline-block; margin-right: 20px;">Account Details: </label><br><br>
+
+        <label>Username </label>
+        <input style ="width:30.5%;" type= "text" name="uid" placeholder="Username"> 
+        <br>
+        <br>
+        <label>Password </label>
+        <input style ="width:31%;" type= "password" name="pwd" placeholder="Password">
+        <label>Password Repeat</label>
+        <input style ="width:31%;" type= "password" name="pwdrepeat" placeholder="Repeat Password">
+        <br>
+        <br>
+        <input type='button' onclick='check()' value="Sign Up">
     </form>
 
     <?php
