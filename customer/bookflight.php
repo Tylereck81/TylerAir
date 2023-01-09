@@ -96,7 +96,7 @@
 
             echo '<div class="page-title">Confirmation</div>';
 
-            echo "<form id='form' action='' method='post'>";
+            echo "<form style='height:120%; width:40%;' id='form' method='post'>";
 
             //data1 used as result data from user selection (from table)
             $data1 = $results1[$ticket_index1];
@@ -106,7 +106,8 @@
 
             
 
-            echo '<h3>User Information</h3>';
+            echo '<div class="page-subtitle-title"><hr>User Information<hr></div>';
+            echo '<div class="ticket_details">';
             echo '* CONFIRM THAT INFORMATION IS CORRECT *<br>'; 
             echo '* IF CHANGES NEED TO BE MADE, GO TO PROFILE *<br><br>'; 
 
@@ -116,8 +117,10 @@
             echo "Email: ".$userinfo["user_email"]."<br>";
             echo "Passport: ".$userinfo["user_passport_number"]."<br><br>";
 
+            echo'</div>';
 
-            echo '<h3>Flight Information</h3>';
+            echo '<div class="page-subtitle-title"><hr>Flight Information<hr></div>';
+            echo '<div class="ticket_details">';
             echo '<h4>Outbound ('.$depAirp["city"].' -> '.$retAirp["city"].')</h4>';
             
             echo 'Flight: ' .$data1['flight_ID'];
@@ -138,6 +141,7 @@
             echo '<option value="3">3</option>';
             echo '</select> <br>';
             echo '* Each Ticket includes 1 baggage for free. Additional bags are 500NT each * ';
+            
 
 
             echo '<h4>Inbound ('.$retAirp["city"].' -> '.$depAirp["city"].')</h4>';
@@ -160,6 +164,7 @@
             echo '<option value="3">3</option>';
             echo '</select> <br>';
             echo '* Each Ticket includes 1 baggage for free. Additional bags are 500NT each * ';
+            echo'</div>';
 
             echo '<br><br>';
 
@@ -167,7 +172,6 @@
             echo '<input type="button" onclick="check2()" value="Confirm Booking">';
             echo '<input type="hidden" name="submitted" value="1" />';
 
-            echo '</form>';
 
         }
         else{
@@ -192,7 +196,7 @@
 
             echo '<div class="page-title">Confirmation</div>';
 
-            echo "<form id='form' action='' method='post'>";
+            echo "<form style='height:80%;width:40%'id='form' action='' method='post'>";
 
             //data1 used as result data from user selection (from table)
             $data = $results[$ticket_index];

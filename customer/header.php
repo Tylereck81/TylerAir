@@ -11,6 +11,11 @@
     </head>
     <body>
     <a href="index.php"><img style = "display: inline-block; margin-right: 20px;"src="TA_logo.png" alt="Tyler Air" height = "150px" width = " 300px"></a>
+    <?php 
+        if(isset($_SESSION["useruid"])){
+            echo '<div style = "float:right;">Logged In: '.$_SESSION["useruid"].'</div>';
+        }
+    ?>
         <nav>
         <ul>
             <li><a href="index.php">Home</a></li>

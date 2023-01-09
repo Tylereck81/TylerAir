@@ -5,8 +5,8 @@
 ?>
 
 
-<h2>Manage Flights</h2>
-    <form id = "form1" method="post">
+<div class = "page-title">Manage Flights</div>
+    <form id = "form1" style = "height:20%;" method="post">
 
         Flights: <select name="flight" id = "flight"> 
             <option value="">..Select...</option> 
@@ -49,11 +49,13 @@
         if($flight !="" && $flight_date!=""){  //query both
             
             echo "<form id='form2' method='post'>";
+            echo "<input type='button' onclick='check2()' value='Cancel Flights(s)'>";
 
             $results = queryFlight1($connect, $flight, $flight_date);
             $index = 0;
             if(mysqli_num_rows($results)){
                 $data = array();
+                echo'<div class = "page-subtitle-title">Select Checkbox(es) and Press Cancel Flight Button</div>';
                 
                 echo "<table>";
                 echo "<tr><th>Flight #</th><th>Flight Date</th><th>First Class Seats</th><th>Economy Class Seats</th><th>Cancel</th></tr>";
@@ -69,24 +71,25 @@
                 echo "</table>"; 
                 echo "<input type='hidden' name='size' value=".$index.">";
                 echo '<input type="hidden" name="submitted2" value="1">';
-                echo "<input type='button' onclick='check2()' value='Cancel Flights(s)'>";
+                
                 $_SESSION['results'] = $data;
-
             }
             else{ 
-                echo 'No Flights Found';
+                echo'<div class = "page-subtitle-title">No Flights Found</div>';
             }
 
         }
         else if($flight!=""){ //query just flight 
 
             echo "<form id='form2' method='post'>";
+            echo "<input type='button' onclick='check2()' value='Cancel Flights(s)'>";
 
             $results = queryFlight2($connect, $flight);
             $index = 0;
             
             if(mysqli_num_rows($results)){
                 $data = array();
+                echo'<div class = "page-subtitle-title">Select Checkbox(es) and Press Cancel Flight Button</div>';
             
                 echo "<table>";
                 echo "<tr><th>Flight #</th><th>Flight Date</th><th>First Class Seats</th><th>Economy Class Seats</th><th>Cancel</th></tr>";
@@ -102,22 +105,23 @@
                 echo "</table>"; 
                 echo "<input type='hidden' name='size' value=".$index.">";
                 echo '<input type="hidden" name="submitted2" value="1">';
-                echo "<input type='button' onclick='check2()' value='Cancel Flights(s)'>";
                 $_SESSION['results'] = $data;
 
             }
             else{ 
-                echo 'No Flights Found';
+                echo'<div class = "page-subtitle-title">No Flights Found</div>';
             }
         }
         else{  //querry just date
             echo "<form id='form2' method='post'>";
+            echo "<input type='button' onclick='check2()' value='Cancel Flights(s)'>";
 
             $results = queryFlight3($connect, $flight_date);
             $index = 0;
 
             if(mysqli_num_rows($results)){
                 $data = array();
+                echo'<div class="page-subtitle-title">Select Checkbox(es) and Press Cancel Flight Button</div>';
 
                 echo "<table>";
                 echo "<tr><th>Flight #</th><th>Flight Date</th><th>First Class Seats</th><th>Economy Class Seats</th><th>Cancel</th></tr>";
@@ -133,12 +137,11 @@
                 echo "</table>";
                 echo "<input type='hidden' name='size' value=".$index.">";
                 echo '<input type="hidden" name="submitted2" value="1">';
-                echo "<input type='button' onclick='check2()' value='Cancel Flights(s)'>";
                 $_SESSION['results'] = $data;
 
             }
             else{ 
-                echo 'No Flights Found';
+                echo'<div class = "page-subtitle-title">No Flights Found</div>';
             }
         }
     }

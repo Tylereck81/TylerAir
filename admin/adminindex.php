@@ -4,8 +4,7 @@
 
 <?php 
 if(isset($_SESSION["userid"])){ 
-    $name = $_SESSION["userfname"]; 
-    echo "Hello ".$name. "";
+   
 }
 ?>
 

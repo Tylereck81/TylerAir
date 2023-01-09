@@ -12,7 +12,7 @@
         $bid = 0;
         $result = getUserFlights($connect, $userid,1);
         #MY TICKETS
-        echo "<form id='form' method='post'>";
+        echo "<form style='width:50%;' id='form' method='post'>";
         echo '<div class="page-subtitle-title"><hr>My Tickets<hr></div><br><br>';
         if(mysqli_num_rows($result)){
 

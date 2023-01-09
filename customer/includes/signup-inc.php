@@ -47,9 +47,7 @@
         }
 
         createUser($connect, $fname, $mname, $lname, $phone_num, $email, $passport, $user_priv, $uid, $password);
-
-
-
+        
     }
     else{ 
         header("location:../signup.php");

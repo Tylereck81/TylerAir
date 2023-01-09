@@ -4,11 +4,18 @@
 ?> 
 
 <html>
-    <head> 
+    <head>
+        <link rel="stylesheet" type = "text/css" href="style.css"> 
         <meta charset="utf-8"> 
         <title>Tyler Air</title>
     </head>
     <body>
+        <a href="adminindex.php"><img style = "display: inline-block; margin-right: 20px;"src="TA_logo.png" alt="Tyler Air" height = "150px" width = " 300px"></a>
+        <?php 
+            if(isset($_SESSION["useruid"])){
+                echo '<div style = "float:right;">Logged In: '.$_SESSION["useruid"].'</div>';
+            }
+        ?>
         <nav>
         <ul>   
             <?php 
