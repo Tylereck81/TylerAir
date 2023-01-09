@@ -5,11 +5,10 @@
 ?>
 
 
-<h2>Add Flights</h2>
-    <form id = "form" action="includes/addflights-inc.php" method="post">
-        DEPARTURE:<br><br>
-        
-        Flight ID: <?php 
+<div class="page-title">Add Flights</div>
+    <form id = "form" style = "height:115%;" action="includes/addflights-inc.php" method="post">
+
+        <label>Flight ID: <?php 
            $f = getMax($connect,1) +1;
            if($f>100){ 
             echo 'TA'.$f;
@@ -20,13 +19,16 @@
            else{ 
             echo 'TA00'.$f;
            }
-
-           
         ?>
+        </label>
+
+        <div class="page-subtitle-title"><hr>Departure<hr></div>
+        
+       
         <br>
         <br>
        
-        Departure City: <select name="departureCity" id = "departureCity" required> 
+        <label>Departure City:</label> <select name="departureCity" id = "departureCity" required> 
             <option value="">..Select...</option> 
             <?php
             
@@ -40,12 +42,12 @@
            }
            ?>
         </select> <br>
-        Departure Time: 
+        <label>Departure Time</label>
         <input type="time" name="departure_time" id = "departure_time" required > 
         <br><br>
 
-        ARRIVAL<br><br>
-        Arrival City: <select name="arrivalCity" id = "arrivalCity" required> 
+        <div class="page-subtitle-title"><hr>Arrival<hr></div>
+        <label>Arrival City:</label> <select name="arrivalCity" id = "arrivalCity" required> 
             <option value="">..Select...</option> 
             <?php
 
@@ -59,19 +61,19 @@
            }
            ?>
         </select> <br>
-        Arrival Time: 
+        <label>Arrival Time: </label>
         <input type="time" name="arrival_time" id = "arrival_time" required > 
-
         <br><br>
-        Date Start: 
+        <div class="page-subtitle-title"><hr>Schedule<hr></div>
+        <label>Date Start:</label>
         <input type="date" name="start_date" id = "start_date" required />
         <br>
 
-        Date End: 
+        <label>Date End:</label>
         <input type="date" name="end_date" id = "end_date" required />
         <br> 
 
-        Week Schedule: <br>
+        <label>Week Schedule: <br>
         <input type="checkbox" name="week_schedule[]" value="mon">Monday<br>
         <input type="checkbox" name="week_schedule[]" value="tue">Tuesday<br>
         <input type="checkbox" name="week_schedule[]" value="wed">Wednesday<br>
@@ -79,9 +81,11 @@
         <input type="checkbox" name="week_schedule[]" value="fri">Friday<br>
         <input type="checkbox" name="week_schedule[]" value="sat">Saturday<br>
         <input type="checkbox" name="week_schedule[]" value="sun">Sunday<br>
+        </label>
 
         <br>
-        Airplane: 
+        <div class="page-subtitle-title"><hr>Airplane<hr></div>
+        <label>Airplane Name:</label>
         <select name="airplane" id = "airplane" required> 
             <option value="">..Select...</option> 
             <?php
@@ -97,11 +101,11 @@
            ?>
         </select> <br>
 
-        First Class Price: $
+        <label>First Class Price: $<label>
         <input type="number" name="first_class_price" id = "first_class_price" min="1" step="any" value="0" required />
         <br>
         
-        Economy Class Price: $
+        <label>Economy Class Price: $</label>
         <input type="number" name="economy_class_price" id = "economy_class_price" min="1" step="any" value="0" required />
         <br>
 
