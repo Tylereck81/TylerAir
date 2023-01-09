@@ -73,15 +73,15 @@
         <input type="date" name="end_date" id = "end_date" required />
         <br> 
 
-        <label>Week Schedule: <br>
-        <input type="checkbox" name="week_schedule[]" value="mon">Monday<br>
-        <input type="checkbox" name="week_schedule[]" value="tue">Tuesday<br>
-        <input type="checkbox" name="week_schedule[]" value="wed">Wednesday<br>
-        <input type="checkbox" name="week_schedule[]" value="thu">Thursday<br>
-        <input type="checkbox" name="week_schedule[]" value="fri">Friday<br>
-        <input type="checkbox" name="week_schedule[]" value="sat">Saturday<br>
-        <input type="checkbox" name="week_schedule[]" value="sun">Sunday<br>
-        </label>
+        <label>Week Schedule: <br></label>
+        <label><input type="checkbox" name="week_schedule[]" value="mon">Monday<br></label>
+        <label><input type="checkbox" name="week_schedule[]" value="tue">Tuesday<br></label>
+        <label><input type="checkbox" name="week_schedule[]" value="wed">Wednesday<br></label>
+        <label><input type="checkbox" name="week_schedule[]" value="thu">Thursday<br></label>
+        <label><input type="checkbox" name="week_schedule[]" value="fri">Friday<br></label>
+        <label><input type="checkbox" name="week_schedule[]" value="sat">Saturday<br></label>
+        <label><input type="checkbox" name="week_schedule[]" value="sun">Sunday<br></label>
+        
 
         <br>
         <div class="page-subtitle-title"><hr>Airplane</div>
