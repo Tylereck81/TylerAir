@@ -63,7 +63,7 @@
 
                     $cancel_checkbox = '<input type="checkbox" name="selected_rows[]" value='.$index.'><br>';
                     
-                    echo "<tr><td>" .($row['flight_ID']) . "</td><td>" . ($row['flight_date']) . "</td><td>" . ($row['firstclass_seats']) . "</td><td>". ($row['firstclass_seats']) ."</td><td>".$cancel_checkbox."</td></tr>";  
+                    echo "<tr><td>" .($row['flight_ID']) . "</td><td>" . ($row['flight_date']) . "</td><td>" . ($row['firstclass_seats']) . "</td><td>". ($row['economyclass_seats']) ."</td><td>".$cancel_checkbox."</td></tr>";  
                     
                     $data[] = $row;
                     $index+=1;  
@@ -97,7 +97,7 @@
 
                     $cancel_checkbox = '<input type="checkbox" name="selected_rows[]" value='.$index.'><br>';
                     
-                    echo "<tr><td>" .($row['flight_ID']) . "</td><td>" . ($row['flight_date']) . "</td><td>" . ($row['firstclass_seats']) . "</td><td>". ($row['firstclass_seats']) ."</td><td>".$cancel_checkbox."</td></tr>";  
+                    echo "<tr><td>" .($row['flight_ID']) . "</td><td>" . ($row['flight_date']) . "</td><td>" . ($row['firstclass_seats']) . "</td><td>". ($row['economyclass_seats']) ."</td><td>".$cancel_checkbox."</td></tr>";  
                     
                     $data[] = $row;
                     $index+=1;  
@@ -129,7 +129,7 @@
 
                     $cancel_checkbox = '<input type="checkbox" name="selected_rows[]" value='.$index.'><br>';
                     
-                    echo "<tr><td>" .($row['flight_ID']) . "</td><td>" . ($row['flight_date']) . "</td><td>" . ($row['firstclass_seats']) . "</td><td>". ($row['firstclass_seats']) ."</td><td>".$cancel_checkbox."</td></tr>";  
+                    echo "<tr><td>" .($row['flight_ID']) . "</td><td>" . ($row['flight_date']) . "</td><td>" . ($row['firstclass_seats']) . "</td><td>". ($row['economyclass_seats']) ."</td><td>".$cancel_checkbox."</td></tr>";  
                     
                     $data[] = $row;
                     $index+=1;  

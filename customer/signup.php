@@ -25,7 +25,7 @@
                 $ERRORS .="Something went wrong! Try Again";
             }
             if($_GET["error"] == "none"){ 
-                $ERRORS .="You have signed up! Go to Login page to log in";
+                echo '<h2>You have signed up! Go to Login page to log in</h2>';
             }
 
             echo '<span class="error">'.$ERRORS.' </span>';

@@ -349,6 +349,40 @@ function check_DateInSchedule($flight_schedule,$date){
     return $result;
 }
 
+function getFlightInfo($connect, $flight_ID){
+    $query_flights = "SELECT * FROM flights WHERE flight_ID = ?;";
+    
+    if(!($stmt = $connect->prepare($query_flights))){ 
+        header("location: ../myflights.php?error=stmtpreparefailure");
+        exit();
+    }
+
+    //binds the statement with the actual data
+    if(!($stmt ->bind_param("s",$flight_ID))){ 
+        header("location: ../myflights.php?error=stmtbindfailure");
+        exit();
+    }
+
+    if(!($stmt ->execute())){ 
+        header("location: ../myflights.php?error=stmtexecutefailure1");
+        exit();
+    }
+
+    if(!($result = $stmt->get_result())){ 
+        header("location: ../myflights.php?error=stmtresultfailure");
+        exit();
+    }
+
+    if($result){
+        return $result; 
+    }
+    else{ 
+        $result = false;
+        return $result;
+    }
+    $stmt->close();
+} 
+
 function queryFlight1($connect, $flight, $flight_date){ 
     $query_flight = "SELECT * FROM flight_schedule WHERE flight_ID = ? AND flight_date = ? AND flight_status = 1;";
     
@@ -478,6 +512,42 @@ function adminCancelFlight($connect, $flight_ID, $flight_date){
     }
 
     $stmt->close();
-} 
+}
+
+function getCanceledFlights($connect,$flight_date){ 
+    $query_flight = "SELECT * FROM flight_schedule WHERE flight_date >= ?  AND flight_status = 0;";
+    
+    if(!($stmt = $connect->prepare($query_flight))){ 
+        header("location: ../manageflights.php?error=stmtpreparefailure");
+        exit();
+    }
+
+    //binds the statement with the actual data
+    
+    if(!($stmt ->bind_param("s",$flight_date))){ 
+        header("location: ../manageflights.php?error=stmtbindfailure");
+        exit();
+    }
+
+    if(!($stmt ->execute())){ 
+        header("location: ../manageflights.php?error=stmtexecutefailure");
+        exit();
+    }
+
+    if(!($result = $stmt->get_result())){ 
+        header("location: ../manageflights.php?error=stmtresultfailure");
+        exit();
+    }
+
+    if($result){
+        return $result; 
+    }
+    else{ 
+        $result = false;
+        return $result;
+    }
+
+    $stmt->close();
+}
 
 ?>
