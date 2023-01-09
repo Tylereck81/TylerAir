@@ -4,6 +4,7 @@
     include_once 'includes/functions-inc.php';
 
 ?>
+<div class="page-title">My Flights</div>
 <?php
     $data = array();
     if(isset($_SESSION["useruid"])){
@@ -11,11 +12,12 @@
         $bid = 0;
         $result = getUserFlights($connect, $userid,1);
         #MY TICKETS
-        echo 'My Tickets<br><br>';
+        echo "<form id='form' method='post'>";
+        echo '<div class="page-subtitle-title"><hr>My Tickets<hr></div><br><br>';
         if(mysqli_num_rows($result)){
 
-            echo "<form method='post'>";
             while($row = $result->fetch_array(MYSQLI_ASSOC)){
+                echo '<div class="ticket_details">';
                 echo "Ticket ID: " .($row['ticket_ID'])."<br>";
                 echo "Flight ID: " .($row['flight_ID'])."<br>";
                 echo "Flight Date: " . ($row['flight_date'])."<br>";
@@ -40,6 +42,7 @@
                 echo '<button type ="submit" name="id" value='.$bid.'>Cancel</button>';
                 echo "<br>";
                 echo "<br>";
+                echo '</div>';
                 $bid+=1;
                 $data[] = $row;
             }
@@ -51,9 +54,10 @@
 
         $result1 = getUserFlights($connect, $userid,0);
         #CANCELLED TICKETS
-        echo 'My Cancelled Tickets<br><br>';
+        echo '<div class="page-subtitle-title"><hr>My Cancelled Tickets<hr></div><br><br>';
         if(mysqli_num_rows($result1)){
             while($row = $result1->fetch_array(MYSQLI_ASSOC)){
+                echo '<div class="ticket_details">';
                 echo "Ticket ID: " .($row['ticket_ID'])."<br>";
                 echo "Flight ID: " .($row['flight_ID'])."<br>";
                 echo "Flight Date: " . ($row['flight_date'])."<br>";
@@ -76,6 +80,8 @@
                 echo "Ticket Price: " .($row['ticket_price'])."<br>";
                 echo "<br>";
                 echo "<br>";
+
+                echo '</div>';
             }
         }
         else{
@@ -84,9 +90,10 @@
 
         $result2 = getUserFlights($connect, $userid,2);
         #Cancelled Flights
-        echo 'Cancelled Flights<br><br>';
+        echo '<div class="page-subtitle-title"><hr>Cancelled Flights<hr></div><br><br>';
         if(mysqli_num_rows($result2)){
             while($row = $result2->fetch_array(MYSQLI_ASSOC)){
+                echo '<div class="ticket_details">';
                 echo "Ticket ID: " .($row['ticket_ID'])."<br>";
                 echo "Flight ID: " .($row['flight_ID'])."<br>";
                 echo "Flight Date: " . ($row['flight_date'])."<br>";
@@ -109,6 +116,7 @@
                 echo "Ticket Price: " .($row['ticket_price'])."<br>";
                 echo "<br>";
                 echo "<br>";
+                echo '</div>';
             }
         }
         else{

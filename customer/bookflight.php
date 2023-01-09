@@ -94,6 +94,8 @@
             $_SESSION["ticket_index2"] = $ticket_index2; 
             $_SESSION["tickets_amount"] = $tickets; 
 
+            echo '<div class="page-title">Confirmation</div>';
+
             echo "<form id='form' action='' method='post'>";
 
             //data1 used as result data from user selection (from table)
@@ -102,7 +104,7 @@
             $depAirp = getAirportInfo($connect, $data1['departure_airport']); 
             $retAirp = getAirportInfo($connect, $data2['departure_airport']);
 
-            echo '<h2>CONFIRMATION:</h2>';
+            
 
             echo '<h3>User Information</h3>';
             echo '* CONFIRM THAT INFORMATION IS CORRECT *<br>'; 
@@ -188,6 +190,8 @@
             $_SESSION["ticket_index"] = $ticket_index;
             $_SESSION["tickets_amount"] = $tickets; 
 
+            echo '<div class="page-title">Confirmation</div>';
+
             echo "<form id='form' action='' method='post'>";
 
             //data1 used as result data from user selection (from table)
@@ -195,9 +199,9 @@
             $depAirp = getAirportInfo($connect, $data['departure_airport']);
             $retAirp = getAirportInfo($connect, $data['destination_airport']); 
 
-            echo '<h2>CONFIRMATION:</h2>';
 
-            echo '<h3>User Information</h3>';
+            echo '<div class="page-subtitle-title"><hr>User Information<hr></div>';
+            echo '<div class="ticket_details">';
             echo '* CONFIRM THAT INFORMATION IS CORRECT *<br>'; 
             echo '* IF CHANGES NEED TO BE MADE, GO TO PROFILE *<br><br>'; 
 
@@ -207,8 +211,12 @@
             echo "Email: ".$userinfo["user_email"]."<br>";
             echo "Passport: ".$userinfo["user_passport_number"]."<br><br>";
 
+            echo '</div>';
 
-            echo '<h3>Flight Information</h3>';
+
+            echo '<div class="page-subtitle-title"><hr>Flight Information<hr></div>';
+            echo '<div class="ticket_details">';
+            
             echo '<h4>Outbound ('.$depAirp["city"].' -> '.$retAirp["city"].')</h4>';
             
             echo 'Flight: ' .$data['flight_ID'];
@@ -230,6 +238,7 @@
             echo '</select> <br>';
             echo '* Each Ticket includes 1 baggage for free. Additional bags are 500NT each * ';
             echo '<br>';
+            echo '</div>';
 
             echo '<input type="button" onclick="check1()" value="Confirm Booking">';
             echo '<input type="hidden" name="submitted" value="1" />';

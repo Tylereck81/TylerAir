@@ -11,8 +11,8 @@ if(isset($_SESSION["useruid"])){
     $info = uid_ifExists($connect,$useruid,$useruid,$useruid); 
     if($info){
         
-        echo '<form style="width:50%; height:42%;" id = "form" method="post">';
-        echo '<label>Name</label><br><br>';
+        echo '<form style="width:50%; height:60%;" id = "form" method="post">';
+        echo '<label>Name<hr></label><br><br>';
         echo 'First Name ';
         echo '<input style="color:#fff;" type= "text" name="fname" value='.$info["user_fname"].' disabled="disable">';
         echo 'Middle Name ';
@@ -20,7 +20,7 @@ if(isset($_SESSION["useruid"])){
         echo 'Last Name ';
         echo '<input style="color:#fff;" type= "text" name="lname" value='.$info["user_lname"].' disabled="disable"><br><br>';
 
-        echo '<label>Personal Information</label><br><br>';
+        echo '<label>Personal Information<hr></label><br><br>';
 
         echo 'Email ';
         echo '<input style="color:#fff;" type= "text" name="email" value='.$info["user_email"].' disabled="disable">';
@@ -30,7 +30,7 @@ if(isset($_SESSION["useruid"])){
         echo '<input type= "tel" id = "editpn" pattern="[0-9]{3}-[0-9]{3}-[0-9]{3}" name="phone_num" value='.$info["user_phone_number"].' disabled="disable" >';
         echo '<input type="button" onclick="enable_edit_phone_number()" value="Edit"><br><br>';
 
-        echo '<label>Login Credentials</label><br><br>';
+        echo '<label>Login Credentials<hr></label><br><br>';
         
         echo 'Username ';
         echo '<input style="color:#fff;" type= "text" name="uid" value='.$useruid.' disabled="disable">';

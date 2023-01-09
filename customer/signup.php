@@ -3,8 +3,9 @@
 ?> 
 
 <div class="page-title">Sign Up</div>
-    <form style = "height:70%;" action="includes/signup-inc.php" method="post">
+    <form style = "height:80%;" action="includes/signup-inc.php" method="post">
         <label style="display: inline-block; margin-right: 20px;">Full Name: </label><br>
+        <hr>
         <br>
         <label style="display: inline-block; margin-right: 10px; ">First Name </label><input style ="width:30%;" type= "text" name="fname" placeholder="First Name"> 
         <label style="display: inline-block; margin-right: 10px; ">Middle Name(s) </label><input style ="width:30%;" type= "text" name="mname" placeholder="Middle Name"><br><br>
@@ -14,6 +15,7 @@
         <br>
 
         <label style="display: inline-block; margin-right: 20px;">Personal Information: </label><br><br>
+        <hr>
         <label>Telephone Number</label>
         <input style ="width:24.5%;" type= "tel" name="phone_num" placeholder="123-456-789" pattern="[0-9]{3}-[0-9]{3}-[0-9]{3}">
         <label>Email </label>
@@ -24,6 +26,7 @@
         <br>
         <br>
         <label style="display: inline-block; margin-right: 20px;">Account Details: </label><br><br>
+        <hr>
 
         <label>Username </label>
         <input style ="width:30.5%;" type= "text" name="uid" placeholder="Username"> 
