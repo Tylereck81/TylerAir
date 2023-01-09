@@ -8,6 +8,9 @@
         if($_GET["error"] == "none"){ 
             echo "<p>Booking Successful! Go to My Flights to see booked tickets!</p>";
         }
+        else if($_GET["error"] == "cancelticket"){ 
+            echo "<h3>Successully Canceled Ticket</h3>";
+        }
     }
 
 ?> 

@@ -173,15 +173,6 @@
 
     </script>
 
-<?php
-//1.write out forms for submissions with drop down menus for airports and allow them to pick dates 
-//2. write into the airports table 
-//3. Write into sections table based on available seats for each 
-//4. Write into schedule table based on what dates they picked
-
-?>
-
-
 <?php 
     include_once 'footer.php'
 ?>

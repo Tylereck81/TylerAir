@@ -512,6 +512,7 @@ function adminCancelFlight($connect, $flight_ID, $flight_date){
     }
 
     $stmt->close();
+    header("location:adminindex.php?error=cancelflight");
 }
 
 function getCanceledFlights($connect,$flight_date){ 

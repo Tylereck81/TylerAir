@@ -10,6 +10,9 @@ if(isset($_GET["error"])){
     if($_GET["error"] == "addedflight"){ 
         echo "<h3>Successfully Added Flight</h3>";
     }
+    else if($_GET["error"] == "cancelflight"){ 
+        echo "<h3>Successfully Canceled Flight</h3>";
+    }
     else{ 
         echo "<h3>Something went wrong, try again</h3>";
     }

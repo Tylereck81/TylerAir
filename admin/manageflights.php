@@ -185,7 +185,10 @@
         function check2(){ 
             const checkbox_check = document.querySelectorAll('input[type="checkbox"]:checked').length > 0;
             if(checkbox_check){
-                document.getElementById("form2").submit();
+                const response = confirm("Are you sure?"); 
+                if(response){ 
+                    document.getElementById("form2").submit();
+                } 
             }
             else{ 
                 alert("Please select one or more flights to cancel");

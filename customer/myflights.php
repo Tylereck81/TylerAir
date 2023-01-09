@@ -5,6 +5,7 @@
 
 ?>
 <div class="page-title">My Flights</div>
+
 <?php
     $data = array();
     if(isset($_SESSION["useruid"])){
@@ -13,9 +14,9 @@
         $result = getUserFlights($connect, $userid,1);
         #MY TICKETS
         echo "<form style='width:50%;' id='form' method='post'>";
-        echo '<div class="page-subtitle-title"><hr>My Tickets<hr></div><br><br>';
+        echo '<div class="page-subtitle-title"><hr>My Tickets<hr></div>';
+        echo "<input type='button' onclick='check()' value='Cancel Ticket(s)'><br><br>";
         if(mysqli_num_rows($result)){
-
             while($row = $result->fetch_array(MYSQLI_ASSOC)){
                 echo '<div class="ticket_details">';
                 echo "Ticket ID: " .($row['ticket_ID'])."<br>";
@@ -38,14 +39,16 @@
                 echo "Bag Number: " . ($row['bag_number'])."<br>";
                 echo "Number of Tickets ".($row['number_tickets'])."<br>";
                 echo "Ticket Price: " .($row['ticket_price'])."<br>";
-                // echo '<button id = '.$bid.' onClick="check(this.id)">Cancel</button><br>';
-                echo '<button type ="submit" name="id" value='.$bid.'>Cancel</button>';
+                echo 'Cancel: <input type="checkbox" name="selected_rows[]" value='.$bid.'><br>';
+                echo '<input type="hidden" name="submitted" value="1" />';
                 echo "<br>";
                 echo "<br>";
                 echo '</div>';
                 $bid+=1;
                 $data[] = $row;
             }
+            echo "<input type='hidden' name='size' value=".$bid.">";
+            $_SESSION['results'] = $data;
         }
         else{
             echo "<h3> NO FLIGHTS FOUND </h3>";
@@ -123,25 +126,41 @@
             echo "<h3> NO FLIGHTS FOUND </h3>";
         }
 
-
+        if(isset($_POST["submitted"])){
+            $selected_rows = $_POST["selected_rows"]; 
+            $size = $_POST["size"];
+            $results = $_SESSION['results'];
+    
+            for($i = 0; $i<$size; $i++){ 
+                if (IsChecked('selected_rows',$i)){ 
+                    $d = $results[$i];
+                    userCancelTicket($connect,$d["ticket_ID"],$_SESSION["userid"], $d["flight_ID"], $d["flight_date"], $d["number_tickets"],$d["section"]);
+                }
+            }
+            echo "<script>window.location.href='index.php';</script>";
+        }
     }
     else{ 
         header("location: index.php");
         exit();
     }
-
-    if(isset($_POST['id'])){ 
-        $index = $_POST['id'];
-        $r = $data[$index];
-        userCancelFlight($connect,$r["ticket_ID"],$_SESSION["userid"], $r["flight_ID"], $r["flight_date"], $r["number_tickets"],$r["section"]);
-        unset($_POST['id']);
-        header("Refresh:0");
-    }
-
-    
-
 ?>
+
+<script> 
+function check(){ 
+    const checkbox_check = document.querySelectorAll('input[type="checkbox"]:checked').length > 0;
+    if(checkbox_check){
+        const response = confirm("Are you sure you want to cancel these tickets?"); 
+        if(response){ 
+            document.getElementById("form").submit();
+        } 
+    }
+    else{ 
+        alert("Please select one or more tickets to cancel");
+    }
+}
+</script>
 
 <?php
     include_once 'footer.php'
-?> 
+?>
