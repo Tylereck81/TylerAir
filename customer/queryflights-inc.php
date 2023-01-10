@@ -70,6 +70,8 @@
             echo "<h3> NO FLIGHTS FOUND </h3>";
         }
 
+        echo '<hr>';
+
         
         /************************ RETURN FLIGHT *************************/
 
@@ -115,16 +117,17 @@
 
         $result = queryFlight($connect, $depCity, $arrCity, $depart_date,$seat_class,$tickets);
 
-        if(mysqli_num_rows($result)){ //if there is any flights
+        echo "<form id='form' action='bookflight.php' method='post'>";
+        echo "<input type='button' onclick='check()' value='Book Ticket'>";
+
+        echo "<h2>".$depCity." to ".$arrCity."</h2>";
+        echo "<h3> Departure Date: ".$depart_date."</h3>";
+
+
+        if(mysqli_num_rows($result)){ //if there are any flights
             
             //data array stores the results data in session
             $data = array();
-
-            echo "<form id='form' action='bookflight.php' method='post'>";
-            echo "<input type='button' onclick='check()' value='Book Ticket'>";
-
-            echo "<h2>".$depCity." to ".$arrCity."</h2>";
-            echo "<h3> Departure Date: ".$depart_date."</h3>";
             
             echo "<table>";
             echo "<tr><th>Flight #</th><th>Departure Time</th><th>Arrival Time</th><th>Price</th><th>Buy</th></tr>";

@@ -137,7 +137,7 @@
                     userCancelTicket($connect,$d["ticket_ID"],$_SESSION["userid"], $d["flight_ID"], $d["flight_date"], $d["number_tickets"],$d["section"]);
                 }
             }
-            echo "<script>window.location.href='index.php';</script>";
+            echo "<script>window.location.href='index.php?error=cancelticket';</script>";
         }
     }
     else{ 

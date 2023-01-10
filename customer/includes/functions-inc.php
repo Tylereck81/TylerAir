@@ -447,7 +447,6 @@ function userCancelTicket($connect,$ticket_ID,$user_ID, $flight_ID, $flight_date
         exit();
     }
 
-    header("location: index.php?error=none");
     $stmt->close();
 
     updateScheduleUserCancel($connect, $flight_ID, $flight_date, $number_tickets,$section_class);
