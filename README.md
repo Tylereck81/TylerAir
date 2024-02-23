@@ -1,4 +1,7 @@
-# TylerAir
+# TylerAir   
+
+![Screenshot_20230109_095726](https://github.com/Tylereck81/TylerAir/assets/68008817/cf1d4aef-055c-4a61-b3f9-24a8035b62ac)
+
 
 Author: Tyler Edwardo Eck      
 Class: Database Systems   
@@ -33,5 +36,45 @@ The TylerAir website allows for two views that each have their own seperate set 
 ## ER/EER Diagram 
 ![ERD](https://github.com/Tylereck81/TylerAir/assets/68008817/4d8312bc-e85f-414a-9511-4839e86a2de2)
 
-## Pictures 
+## User View 
+### TylerAir Homepage 
+![1](https://github.com/Tylereck81/TylerAir/assets/68008817/53463462-6fc1-4451-b260-6d6673afd35a)
+
+### Query Flights
+![2](https://github.com/Tylereck81/TylerAir/assets/68008817/3bfdd327-1311-432e-be69-15d12aab446f)
+
+### Sign up -  * Users must have an account to book tickets *
+![3](https://github.com/Tylereck81/TylerAir/assets/68008817/5767c8b0-f869-4307-a567-06056533cc96)
+
+![4](https://github.com/Tylereck81/TylerAir/assets/68008817/f5fdaf66-142d-4e93-90dd-af497aa7d647)
+
+### Confirmation of Ticket
+![5](https://github.com/Tylereck81/TylerAir/assets/68008817/bf8b168e-64ea-4b5a-8a50-98830d6ff2af)
+
+### My Flights 
+![6](https://github.com/Tylereck81/TylerAir/assets/68008817/e2127de9-7890-4e21-9e26-279633d09a60)
+
+### Cancel Flights 
+![7,1](https://github.com/Tylereck81/TylerAir/assets/68008817/65898e81-7200-4a34-a938-3ea85b1f6bd4)
+
+## Admin View   
+### Admin Login
+![a1](https://github.com/Tylereck81/TylerAir/assets/68008817/8a444609-f2ee-4652-b28d-9f82e1c6893f)
+
+### Admin Homepage 
+![a2](https://github.com/Tylereck81/TylerAir/assets/68008817/0569c592-62f4-4333-bf89-1921c3c94feb)
+
+### Add Flights
+![a3](https://github.com/Tylereck81/TylerAir/assets/68008817/dc944ef0-114a-46e7-a5d3-f9717823b702)
+
+### Manage Flights (Query/Cancel Flights) 
+![a4](https://github.com/Tylereck81/TylerAir/assets/68008817/f5b2b3bb-ad2c-4008-817e-f752c9b2f974)
+
+### Successful Cancelling of Flight 
+![a5](https://github.com/Tylereck81/TylerAir/assets/68008817/7d6b8982-a930-4b22-9761-c2db9d986049)
+![a6](https://github.com/Tylereck81/TylerAir/assets/68008817/6b6bb775-896f-4c79-b800-8528f827b6ea)
+
+
+
+
 
